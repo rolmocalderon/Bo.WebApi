@@ -11,9 +11,9 @@ async function getSingle(pickup){
   }
 }
 
-async function getPickupProducts(placeId, date){
+async function getPickupProducts(pickupId){
     console.log("getPickupProducts");
-    let query = 'SELECT p.id, date, productId, amount, observations, products.name as name FROM pickups p INNER JOIN products ON products.id = p.productId AND placeId = '+ placeId + ' AND date = "'+ date +'";';
+    let query = 'SELECT pp.id as id, amount, observations, weight, p.name as productName FROM productpicked pp INNER JOIN products p ON p.id = pp.productId AND pp.pickupId = ' + pickupId +';';
     const rows = await db.query(query)
     const data = helper.emptyOrRows(rows);
   
@@ -23,20 +23,31 @@ async function getPickupProducts(placeId, date){
     }
   }
 
-async function getMultiple(page = 1){
-  const rows = await db.query(`SELECT date, productId, amount, observations, places.name, placeId FROM pickups p INNER JOIN places ON places.id = p.placeId;`);
+async function getMultiple(){
+  const rows = await db.query(`SELECT id, date, name FROM pickups`);
   let data = helper.emptyOrRows(rows);
   data = helper.getUniqueValues(rows);
-  const meta = {page};
 
   return {
-    data,
-    meta
+    data
   }
+}
+
+async function insert(req){
+    db.query('INSERT INTO pickups (name, date) VALUES (?, ?)', [req.placeName, req.date],(error, results) => {
+        console.log("results", results);
+        if (error) return res.json({ error: error });
+    });
+
+    const data = {};
+    return {
+        data
+    }
 }
 
 module.exports = {
   getMultiple,
   getSingle,
-  getPickupProducts
+  getPickupProducts,
+  insert
 }

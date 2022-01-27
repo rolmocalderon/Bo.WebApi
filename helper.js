@@ -12,7 +12,7 @@ function getOffset(currentPage = 1, listPerPage) {
   function getUniqueValues(rows){
     let values = [];
     for(let row of rows){
-      let canPush = !values.find(value => value && value.date == row.date && value.placeId == row.placeId)
+      let canPush = !values.find(value => value && value.date == row.date && value.name.toLowerCase() == row.name.toLowerCase())
       if(canPush){
         values.push(row);
       }

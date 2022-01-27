@@ -1,10 +1,10 @@
 const express = require('express');
 const router = express.Router();
-const pickups = require('../services/pickups');
+const cities = require('../services/cities');
 
 router.get('/', async function(req, res, next){
     try{
-        res.json(await pickups.getPickupProducts(req.query.pickupId));
+        res.json(await cities.getMultiple());
     }catch(err){
 
     }

@@ -8,6 +8,14 @@ async function query(sql, params) {
   return results;
 }
 
+async function getAll(table, params){
+  const connection = await mysql.createConnection(config.db);
+  const [results] = await connection.execute("SELECT * from " + table, params);
+
+  return results;
+}
+
 module.exports = {
-  query
+  query,
+  getAll
 }

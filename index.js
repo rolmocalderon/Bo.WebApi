@@ -8,6 +8,7 @@ const products = require('./routes/products');
 const pickups = require('./routes/pickups');
 const getPickupProducts = require('./routes/getPickupProducts');
 const insertPickup = require('./routes/insertPickup');
+const cities = require('./routes/cities');
 
 app.use(cors())
 app.use(bodyParser.json());
@@ -26,6 +27,7 @@ app.use('/getProducts', products)
 app.use('/getPickups', pickups);
 app.use('/getPickupProducts', getPickupProducts);
 app.use('/insertPickup', insertPickup);
+app.use('/getCities', cities);
 
 /* Error handler middleware */
 app.use((err, req, res, next) => {

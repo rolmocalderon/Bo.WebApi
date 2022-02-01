@@ -12,8 +12,19 @@ async function getPickupProducts(pickupId){
     }
   }
 
+  async function getPickupDates(pickupName){
+    let query = 'SELECT id, date FROM pickups WHERE name = "' + pickupName.trim() + '";';
+    const rows = await db.query(query);
+    let data = helper.emptyOrRows(rows);
+    data = helper.getUniqueValues(data);
+
+    return{
+      data
+    }
+  }
+
 async function getMultiple(req){
-  const rows = await db.query(`SELECT id, date, name FROM pickups WHERE cityId = ` + req);
+  const rows = await db.query(`SELECT id, name FROM pickups WHERE cityId = ` + req);
   let data = helper.emptyOrRows(rows);
   data = helper.getUniqueValues(rows);
 
@@ -36,5 +47,6 @@ async function insert(req){
 module.exports = {
   getMultiple,
   getPickupProducts,
+  getPickupDates,
   insert
 }

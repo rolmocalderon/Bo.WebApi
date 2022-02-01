@@ -7,6 +7,7 @@ const login = require('./routes/login');
 const products = require('./routes/products');
 const pickups = require('./routes/pickups');
 const getPickupProducts = require('./routes/getPickupProducts');
+const getPickupDates = require('./routes/getPickupDates');
 const insertPickup = require('./routes/insertPickup');
 const cities = require('./routes/cities');
 
@@ -26,6 +27,7 @@ app.use('/login', login);
 app.use('/getProducts', products)
 app.use('/getPickups', pickups);
 app.use('/getPickupProducts', getPickupProducts);
+app.use('/getPickupDates', getPickupDates);
 app.use('/insertPickup', insertPickup);
 app.use('/getCities', cities);
 

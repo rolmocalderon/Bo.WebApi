@@ -10,6 +10,7 @@ const getPickupProducts = require('./routes/getPickupProducts');
 const getPickupDates = require('./routes/getPickupDates');
 const insertPickup = require('./routes/insertPickup');
 const cities = require('./routes/cities');
+const editProduct = require('./routes/editProduct');
 
 app.use(cors())
 app.use(bodyParser.json());
@@ -30,6 +31,7 @@ app.use('/getPickupProducts', getPickupProducts);
 app.use('/getPickupDates', getPickupDates);
 app.use('/insertPickup', insertPickup);
 app.use('/getCities', cities);
+app.use('/editProduct', editProduct);
 
 /* Error handler middleware */
 app.use((err, req, res, next) => {

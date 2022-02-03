@@ -1,5 +1,3 @@
-CREATE DATABASE  IF NOT EXISTS `boapp` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
-USE `boapp`;
 -- MySQL dump 10.13  Distrib 8.0.19, for Win64 (x86_64)
 --
 -- Host: localhost    Database: boapp
@@ -82,13 +80,12 @@ CREATE TABLE `productpicked` (
   `Observations` varchar(200) DEFAULT NULL,
   `weight` varchar(45) DEFAULT NULL,
   `pickupId` int DEFAULT NULL,
-  `productId` int DEFAULT NULL,
+  `productName` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`id`),
-  KEY `productId_idx` (`productId`),
+  KEY `productId_idx` (`productName`),
   KEY `pickupId_idx` (`pickupId`),
-  CONSTRAINT `pickupId` FOREIGN KEY (`pickupId`) REFERENCES `pickups` (`id`),
-  CONSTRAINT `productId` FOREIGN KEY (`productId`) REFERENCES `products` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  CONSTRAINT `pickupId` FOREIGN KEY (`pickupId`) REFERENCES `pickups` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -97,7 +94,7 @@ CREATE TABLE `productpicked` (
 
 LOCK TABLES `productpicked` WRITE;
 /*!40000 ALTER TABLE `productpicked` DISABLE KEYS */;
-INSERT INTO `productpicked` VALUES (1,5,NULL,'500',1,1),(2,3,NULL,'200',2,2),(3,15,NULL,'100',1,3),(4,4,NULL,'1000',5,4);
+INSERT INTO `productpicked` VALUES (1,5,NULL,'500',1,'Macarrones'),(2,3,NULL,'200',1,'Compresas'),(3,15,NULL,'100',2,'Aceite'),(4,4,NULL,'1000',1,'Leche'),(5,12,NULL,'500',5,'Spagueti');
 /*!40000 ALTER TABLE `productpicked` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -161,4 +158,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2022-02-01 12:54:29
+-- Dump completed on 2022-02-03  2:40:06

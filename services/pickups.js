@@ -34,14 +34,14 @@ async function getMultiple(req){
 }
 
 async function insert(req){
-    db.query('INSERT INTO pickups (name, date) VALUES (?, ?)', [req.placeName, req.date],(error, results) => {
-        if (error) return res.json({ error: error });
-    });
+  db.query('INSERT INTO pickups (name, date, cityId) VALUES (?, ?, ?)', [req.placeName, req.date, req.cityId],(error, results) => {
+      if (error) return res.json({ error: error });
+  });
 
-    const data = {};
-    return {
-        data
-    }
+  const data = {};
+  return {
+      data
+  }
 }
 
 module.exports = {

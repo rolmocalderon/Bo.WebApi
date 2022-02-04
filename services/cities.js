@@ -20,7 +20,16 @@ async function getMultiple(){
   }
 }
 
+async function insert(req){
+  const rows = await db.query('INSERT INTO cities (name) VALUES (?)', [req.data.cityName]);
+  const data = {'status':'ok', 'id': rows.insertId};
+  return {
+      data
+  }
+}
+
 module.exports = {
   getMultiple,
-  getSingle
+  getSingle,
+  insert
 }

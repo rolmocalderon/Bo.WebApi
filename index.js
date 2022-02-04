@@ -14,6 +14,7 @@ const cities = require('./routes/cities');
 const editProduct = require('./routes/editProduct');
 const getMeasures = require('./routes/getMeasures');
 const getProductTypes = require('./routes/getProductTypes');
+const insertProduct = require('./routes/insertProduct');
 
 app.use(cors())
 app.use(bodyParser.json());
@@ -38,6 +39,7 @@ app.use('/getCities', cities);
 app.use('/editProduct', editProduct);
 app.use('/getMeasures', getMeasures);
 app.use('/getProductTypes', getProductTypes);
+app.use('/insertProduct', insertProduct);
 
 /* Error handler middleware */
 app.use((err, req, res, next) => {

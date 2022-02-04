@@ -29,7 +29,29 @@ async function editProduct(req){
   return response;
 }
 
+async function getMeasures(){
+  let query = 'SELECT * FROM measures';
+  const rows = await db.query(query);
+  const data = helper.emptyOrRows(rows);
+
+  return{
+    data
+  }
+}
+
+async function getProductTypes(){
+  let query = 'SELECT * FROM productTypes';
+  const rows = await db.query(query);
+  const data = helper.emptyOrRows(rows);
+
+  return{
+    data
+  }
+}
+
 module.exports = {
   getMultiple,
-  editProduct
+  editProduct,
+  getMeasures,
+  getProductTypes
 }

@@ -28,7 +28,7 @@ CREATE TABLE `cities` (
   `id` int NOT NULL AUTO_INCREMENT,
   `name` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=29 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -37,8 +37,33 @@ CREATE TABLE `cities` (
 
 LOCK TABLES `cities` WRITE;
 /*!40000 ALTER TABLE `cities` DISABLE KEYS */;
-INSERT INTO `cities` VALUES (1,'Madrid'),(2,'Barcelona'),(4,'Bilbao'),(5,'Sevilla'),(6,'Valencia');
+INSERT INTO `cities` VALUES (1,'Madrid'),(2,'Barcelona'),(4,'Bilbao'),(5,'Sevilla'),(6,'Valencia'),(10,'Toledo'),(11,'Albacete');
 /*!40000 ALTER TABLE `cities` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `measures`
+--
+
+DROP TABLE IF EXISTS `measures`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `measures` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `type` varchar(45) NOT NULL,
+  `alias` varchar(45) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `measures`
+--
+
+LOCK TABLES `measures` WRITE;
+/*!40000 ALTER TABLE `measures` DISABLE KEYS */;
+INSERT INTO `measures` VALUES (1,'Gramos','gramo'),(2,'Kilos','kilo'),(3,'Litros','litro'),(4,'Paquete','pack'),(5,'Paquete de 6','sixPack'),(6,'Paquete de 12','twelvePack');
+/*!40000 ALTER TABLE `measures` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -56,7 +81,7 @@ CREATE TABLE `pickups` (
   PRIMARY KEY (`id`),
   KEY `cityId_idx` (`cityId`),
   CONSTRAINT `cityId` FOREIGN KEY (`cityId`) REFERENCES `cities` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=43 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -65,7 +90,7 @@ CREATE TABLE `pickups` (
 
 LOCK TABLES `pickups` WRITE;
 /*!40000 ALTER TABLE `pickups` DISABLE KEYS */;
-INSERT INTO `pickups` VALUES (1,'17/1/2022','Mercadona Nou Barris',2),(2,'16/1/2022','Spar Poble Sec',2),(3,'15/1/2022','Mercadona Nou Barris',2),(4,'15/1/2022','Spar Poble Sec',2),(5,'19/1/2022','Hortaleza',1);
+INSERT INTO `pickups` VALUES (1,'17/1/2022','Mercadona Nou Barris',2),(2,'16/1/2022','Spar Poble Sec',2),(3,'15/1/2022','Mercadona Nou Barris',2),(4,'15/1/2022','Spar Poble Sec',2),(5,'19/1/2022','Hortaleza',1),(9,'19/2/2022','mercat',10);
 /*!40000 ALTER TABLE `pickups` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -79,15 +104,17 @@ DROP TABLE IF EXISTS `productpicked`;
 CREATE TABLE `productpicked` (
   `id` int NOT NULL AUTO_INCREMENT,
   `amount` int NOT NULL,
-  `Observations` varchar(200) DEFAULT NULL,
+  `observations` varchar(200) DEFAULT NULL,
   `weight` varchar(45) DEFAULT NULL,
   `pickupId` int DEFAULT NULL,
   `productName` varchar(45) DEFAULT NULL,
+  `measureId` int NOT NULL,
+  `productTypeId` int NOT NULL,
   PRIMARY KEY (`id`),
   KEY `productId_idx` (`productName`),
   KEY `pickupId_idx` (`pickupId`),
   CONSTRAINT `pickupId` FOREIGN KEY (`pickupId`) REFERENCES `pickups` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -96,7 +123,7 @@ CREATE TABLE `productpicked` (
 
 LOCK TABLES `productpicked` WRITE;
 /*!40000 ALTER TABLE `productpicked` DISABLE KEYS */;
-INSERT INTO `productpicked` VALUES (1,5,NULL,'500',1,'Macarrones'),(2,3,NULL,'200',1,'Compresas'),(3,15,NULL,'100',2,'Aceite'),(4,4,NULL,'1000',1,'Leche'),(5,12,NULL,'500',5,'Spagueti');
+INSERT INTO `productpicked` VALUES (1,12,NULL,'35',1,'Gasolina',2,1),(2,3,NULL,'200',1,'Compresas',2,2),(3,15,NULL,'100',2,'Aceite',2,3),(4,4,NULL,'1000',1,'Leche',2,2),(5,12,NULL,'500',5,'Spagueti',3,1),(14,25,NULL,'5',1,'Gasofa2',3,3),(15,12,NULL,'1',1,'Aceite',3,1),(16,100,NULL,'200',2,'qwert',1,2),(17,5,NULL,'3',2,'dherhr',2,3),(18,12,NULL,'100',1,'Peras',1,1);
 /*!40000 ALTER TABLE `productpicked` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -123,6 +150,31 @@ LOCK TABLES `products` WRITE;
 /*!40000 ALTER TABLE `products` DISABLE KEYS */;
 INSERT INTO `products` VALUES (1,'Macarrones',NULL),(2,'Tomate',NULL),(3,'Compresas',NULL),(4,'Aceite',NULL);
 /*!40000 ALTER TABLE `products` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `producttypes`
+--
+
+DROP TABLE IF EXISTS `producttypes`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `producttypes` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `type` varchar(45) NOT NULL,
+  `alias` varchar(45) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `producttypes`
+--
+
+LOCK TABLES `producttypes` WRITE;
+/*!40000 ALTER TABLE `producttypes` DISABLE KEYS */;
+INSERT INTO `producttypes` VALUES (1,'Comida','food'),(2,'Productos de higiene','hygieneProducts'),(3,'Productos de limpieza','cleaningProducts');
+/*!40000 ALTER TABLE `producttypes` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -160,4 +212,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2022-02-03  2:40:06
+-- Dump completed on 2022-02-07 15:50:47

@@ -2,15 +2,6 @@ const db = require('./db');
 const helper = require('../helper');
 const config = require('../config');
 
-async function getSingle(product){
-  let query = 'SELECT name, category FROM users WHERE name="'+ user.name + '" && password="' + user.password + '"';
-  const data = await db.query(query);
-
-  return {
-    data
-  }
-}
-
 async function getMultiple(){
   const rows = await db.getAll("cities");
   const data = helper.emptyOrRows(rows);
@@ -21,8 +12,14 @@ async function getMultiple(){
 }
 
 async function insert(req){
-  const rows = await db.query('INSERT INTO cities (name) VALUES (?)', [req.data.cityName]);
-  const data = {'status':'ok', 'id': rows.insertId};
+  const rows = await db.query(`INSERT INTO cities (name) VALUES ('${req.data.cityName}')`);
+  let insertId = rows.insertId;
+  if(true){
+    let result = await db.query("SELECT nextval('cities_id_seq');");
+    insertId = result[0].nextval - 1;
+  }
+
+  const data = {'status':'ok', 'id': insertId};
   return {
       data
   }
@@ -30,6 +27,5 @@ async function insert(req){
 
 module.exports = {
   getMultiple,
-  getSingle,
   insert
 }

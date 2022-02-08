@@ -13,7 +13,7 @@ async function getPickupProducts(pickupId){
   }
 
   async function getPickupDates(pickupName){
-    let query = 'SELECT id, date FROM pickups WHERE name = "' + pickupName.trim() + '";';
+    let query = `SELECT id, date FROM pickups WHERE name = '${pickupName.trim()}';`;
     const rows = await db.query(query);
     let data = helper.emptyOrRows(rows);
     data = helper.getUniqueValues(data);
@@ -24,7 +24,8 @@ async function getPickupProducts(pickupId){
   }
 
 async function getMultiple(req){
-  const rows = await db.query(`SELECT id, name FROM pickups WHERE cityId = ` + req);
+  console.log("cityId", req)
+  const rows = await db.query(`SELECT id, name FROM pickups WHERE cityId = ${req};`);
   let data = helper.emptyOrRows(rows);
   data = helper.getUniqueValues(rows);
 
@@ -34,7 +35,7 @@ async function getMultiple(req){
 }
 
 async function insert(req){
-  db.query('INSERT INTO pickups (name, date, cityId) VALUES (?, ?, ?)', [req.placeName, req.date, req.cityId],(error, results) => {
+  db.query(`INSERT INTO pickups (name, date, cityId) VALUES ('${req.placeName}', '${req.date}', ${req.cityId})`,(error, results) => {
       if (error) return res.json({ error: error });
   });
 

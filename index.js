@@ -26,7 +26,7 @@ app.use(
 
 app.get('/', (req, res) => {
   res.json({'message': 'ok'});
-})
+});
 
 app.use('/login', login);
 app.use('/getProducts', products)

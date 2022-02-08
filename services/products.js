@@ -20,7 +20,7 @@ async function editProduct(req){
   let productWeight = obj.data.productWeight; 
   let measureId = obj.data.measure;
   let productTypeId = obj.data.productType;
-  let query = `UPDATE productpicked SET amount = ${amount}, weight = ${productWeight}, productName = "${productName}", measureId = ${measureId}, productTypeId = ${productTypeId} WHERE id = ${obj.data.id};`;
+  let query = `UPDATE productpicked SET amount = ${amount}, weight = ${productWeight}, productName = '${productName}', measureId = ${measureId}, productTypeId = ${productTypeId} WHERE id = ${obj.data.id};`;
   console.log("update", query);
   const rows = await db.query(query);
 
@@ -39,7 +39,7 @@ async function insertProduct(req){
   let pickupId = obj.data.pickupId;
   let measureId = obj.data.measure;
   let productTypeId = obj.data.productType;
-  let query = `INSERT INTO productpicked (amount, weight, productName, pickupId, measureId, productTypeId) VALUES (${amount}, ${productWeight}, "${productName}", ${pickupId}, "${measureId}", ${productTypeId});`;
+  let query = `INSERT INTO productpicked (amount, weight, productName, pickupId, measureId, productTypeId) VALUES (${amount}, ${productWeight}, '${productName}', ${pickupId}, ${measureId}, ${productTypeId});`;
   const rows = await db.query(query);
 
   let response = {

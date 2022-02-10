@@ -3,9 +3,11 @@ const helper = require('../helper');
 const config = require('../config');
 
 async function getMultiple(){
+  console.log("requesting cities")
   const rows = await db.getAll("cities");
   const data = helper.emptyOrRows(rows);
 
+  console.log("result cities", data)
   return {
     data,
   }

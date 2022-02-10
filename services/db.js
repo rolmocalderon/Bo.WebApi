@@ -12,13 +12,13 @@ async function query(sql, params) {
   return responses.rows;
 }
 
-async function getAll(table, params){
+async function getAll(table){
   console.log("doing query", table, params);
   //const connection = await mysql.createConnection(config.db);
-  const [results] = await connection.execute("SELECT * from " + table, params);
+  const [results] = await postgre.query(`SELECT * FROM ${table}`);
   console.log("getAll", results);
 
-  return results;
+  return results.rows;
 }
 
 module.exports = {

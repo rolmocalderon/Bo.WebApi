@@ -4,6 +4,7 @@ const login = require('../services/login');
 
 router.get('/', async function(req, res, next) {
   try {
+        console.log("requesting loing", req.query)
         if(typeof req != 'object'){
             req.query = JSON.parse(req.query)
         }

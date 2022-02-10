@@ -21,7 +21,6 @@ async function editProduct(req){
   let measureId = obj.data.measure;
   let productTypeId = obj.data.productType;
   let query = `UPDATE productpicked SET amount = ${amount}, weight = ${productWeight}, productName = '${productName}', measureId = ${measureId}, productTypeId = ${productTypeId} WHERE id = ${obj.data.id};`;
-  console.log("update", query);
   const rows = await db.query(query);
 
   let response = {

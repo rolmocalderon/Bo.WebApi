@@ -24,7 +24,6 @@ async function getPickupProducts(pickupId){
   }
 
 async function getMultiple(req){
-  console.log("cityId", req)
   const rows = await db.query(`SELECT id, name FROM pickups WHERE cityId = ${req};`);
   let data = helper.emptyOrRows(rows);
   data = helper.getUniqueValues(rows);

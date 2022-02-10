@@ -6,7 +6,6 @@ const postgre = require('./postgresql');
 async function query(sql, params) {
   //const connection = await mysql.createConnection(config.db);
   //const [results, ] = await connection.execute(sql, params);
-  console.log("query", sql)
   const responses = await postgre.query(sql)
 
   return responses.rows;

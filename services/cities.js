@@ -4,7 +4,8 @@ const config = require('../config');
 
 async function getMultiple(){
   console.log("requesting cities")
-  const rows = await db.getAll("cities");
+  const rows = await db.query("SELECT * FROM cities");
+  console.log("response multiple", rows)
   const data = helper.emptyOrRows(rows);
 
   console.log("result cities", data)

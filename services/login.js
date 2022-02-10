@@ -5,7 +5,7 @@ const config = require('../config');
 async function getSingle(user){
   let query = "SELECT name, category FROM users WHERE name='"+ user.name.toLowerCase() + "' AND password='" + user.password + "';";
   const data = await db.query(query);
-
+  console.log("getting data", data)
   return {
     data
   }

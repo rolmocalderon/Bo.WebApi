@@ -15,6 +15,8 @@ const editProduct = require('./routes/editProduct');
 const getMeasures = require('./routes/getMeasures');
 const getProductTypes = require('./routes/getProductTypes');
 const insertProduct = require('./routes/insertProduct');
+const getDeliveries = require('./routes/getDeliveries');
+const getDeliveryDates = require('./routes/getDeliveryDates');
 
 app.use(cors())
 app.use(bodyParser.json());
@@ -40,6 +42,8 @@ app.use('/editProduct', editProduct);
 app.use('/getMeasures', getMeasures);
 app.use('/getProductTypes', getProductTypes);
 app.use('/insertProduct', insertProduct);
+app.use('/getDeliveries', getDeliveries);
+app.use('/getDeliveryDates', getDeliveryDates);
 
 /* Error handler middleware */
 app.use((err, req, res, next) => {

@@ -55,3 +55,12 @@ CREATE TABLE users (
 );
 
 INSERT INTO users VALUES (1,'pau','testing','regular'),(2,'paloma','testing','admin');
+
+/* DELIVERIES */
+
+CREATE TABLE deliveries(
+  id SERIAL PRIMARY KEY,
+
+
+CREATE TABLE deliveries(id SERIAL PRIMARY KEY, date VARCHAR(45) NOT NULL, name VARCHAR(45) NOT NULL, cityId INT NOT NULL);
+INSERT INTO deliveries VALUES (1,'17/2/2022','Local Banco Obrero',2),(2,'19/2/2022','Local Banco Obrero',2),(3,'21/2/2022','Local Banco Obrero',2),(4,'15/2/2022','Casa del Pueblo',1),(5,'19/2/2022','Casa del Pueblo',1),(6,'19/2/2022','Local Banco Obrero',3);

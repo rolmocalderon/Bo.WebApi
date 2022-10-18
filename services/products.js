@@ -58,20 +58,9 @@ async function getMeasures(){
   }
 }
 
-async function getProductTypes(){
-  let query = 'SELECT * FROM productTypes';
-  const rows = await db.query(query);
-  const data = helper.emptyOrRows(rows);
-
-  return{
-    data
-  }
-}
-
 module.exports = {
   getMultiple,
   editProduct,
   getMeasures,
-  getProductTypes,
   insertProduct
 }

@@ -3,7 +3,7 @@ const helper = require('../helper');
 const config = require('../config');
 
 async function getPickupProducts(pickupId){
-    let query = `SELECT pp.*, pt.alias, m.type measureType, m.alias as measureAlias FROM productpicked pp INNER JOIN producttypes pt ON pp.productTypeId = pt.id INNER JOIN measures m ON m.id = pp.measureId AND pp.pickupId = ${pickupId};`;
+    let query = `SELECT pp.*, m.type measureType, m.alias as measureAlias FROM productpicked pp INNER JOIN measures m ON m.id = pp.measureId AND pp.pickupId = ${pickupId};`;
     const rows = await db.query(query)
     const data = helper.emptyOrRows(rows);
   

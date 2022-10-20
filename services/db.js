@@ -8,14 +8,14 @@ async function query(sql, callback) {
   //const connection = await mysql.createConnection(config.db);
   //connection.query(sql, callback);
   const responses = await postgre.query(sql);
-  console.log("query response", responses);
+  console.log("query response", responses.rows);
   return responses.rows;
 }
 
 async function getAll(table){
   console.log("doing query", table, params);
   //const connection = await mysql.createConnection(config.db);
-  const [results] = await postgre.query(`SELECT * FROM ${table}`);
+  const [results] = await postgre.query(`SELECT * FROM ${table};`);
   console.log("getAll", results);
 
   return results.rows;

@@ -3,7 +3,7 @@ const helper = require('../helper');
 const config = require('../config');
 
 async function getPickupProducts(pickupId){
-    let query = `SELECT p.id, p.name, COALESCE(NULL, pp.amount, 0) AS amount FROM products p LEFT JOIN productpicked pp ON p.id = pp.productid AND pp.pickupId = ${pickupId} order by p.id;`;
+    let query = `SELECT p.id, p.name, COALESCE(NULL, pp.amount, 0) AS amount, pp.measureid FROM products p LEFT JOIN productpicked pp ON p.id = pp.productid AND pp.pickupId = ${pickupId} order by p.id;`;
     const rows = await db.query(query)
     const data = helper.emptyOrRows(rows);
   

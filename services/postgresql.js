@@ -12,3 +12,5 @@ const pool = new Pool({
     }
   })
 module.exports = pool;
+
+//psql -h ec2-52-213-167-210.eu-west-1.compute.amazonaws.com -d d6tirr3ic3t3r9 -U gcktxbujwxrejb

@@ -3,10 +3,10 @@ const mysql = require('mysql2/promise');
 const config = require('../config');
 const postgre = require('./postgresql');
 
-async function query(sql, params) {
-  //const connection = await mysql.createConnection(config.db);
-  //const [results, ] = await connection.execute(sql, params);
+async function query(sql, callback) {
   console.log("doing query", sql);
+  //const connection = await mysql.createConnection(config.db);
+  //connection.query(sql, callback);
   const responses = await postgre.query(sql);
   console.log("query response", responses);
   return responses.rows;

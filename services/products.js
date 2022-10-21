@@ -29,7 +29,7 @@ async function insertProduct(req){
 }
 
 async function getMeasures(){
-  let query = 'SELECT m.id, m.type, pm.productid FROM measures m INNER JOIN productmeasures pm ON m.id = pm.measureid;';
+  let query = 'SELECT id, type FROM measures ORDER BY type';
   const rows = await db.query(query);
   const data = helper.emptyOrRows(rows);
 

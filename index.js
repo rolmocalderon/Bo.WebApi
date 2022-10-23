@@ -37,7 +37,7 @@ app.use('/insertPickup', insertPickup);
 app.use('/insertCity', insertCity);
 app.use('/getCities', cities);
 app.use('/getMeasures', getMeasures);
-app.use('/insertProduct', insertProduct);
+app.use('/syncProducts', insertProduct);
 app.use('/getDeliveries', getDeliveries);
 app.use('/getDeliveryDates', getDeliveryDates);
 

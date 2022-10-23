@@ -28,6 +28,40 @@ async function insertProduct(req){
   return response;
 }
 
+async function syncData(req){
+  let syncProductsResponse = await this.syncProducts(req.productsData);
+  let syncProductMeasuresResponse = await this.syncProductsMeasure(req.productMeasuresData);
+
+  return {syncProductsResponse, syncProductMeasuresResponse};
+}
+
+async function syncProducts(reqProducts){
+  var query = "INSERT INTO products (id, name) VALUES ";
+  for(let product of reqProducts){
+    query += `(${product.id}, '${product.name}'), `;
+  }
+
+  query = query.substring(0, query.lastIndexOf(',')) + " ";
+  query += "ON CONFLICT (id) DO NOTHING RETURNING id;"
+  let response = await db.query(query);
+  return response;
+}
+
+async function syncProductsMeasure(reqProductsMeasure){
+  var query = "INSERT INTO productmeasures (productid, measureid) VALUES ";
+  for(let product of reqProductsMeasure){
+    if(product.measureid){
+      query += `(${product.productid}, '${product.measureid}'), `;
+    }
+  }
+
+  query = query.substring(0, query.lastIndexOf(',')) + " ";
+  query += "ON CONFLICT (productid, measureid) DO NOTHING RETURNING id;"
+  let response = await db.query(query);
+  
+  return response;
+}
+
 async function getMeasures(){
   let query = 'SELECT id, type FROM measures ORDER BY type';
   const rows = await db.query(query);
@@ -41,5 +75,8 @@ async function getMeasures(){
 module.exports = {
   getMultiple,
   getMeasures,
-  insertProduct
+  insertProduct,
+  syncData,
+  syncProducts,
+  syncProductsMeasure
 }

@@ -4,10 +4,12 @@ const products = require('../services/products');
 
 router.post('/', async function(req, res, next){
     try{
-        let response = await products.insertProduct(req);
+        let response = await products.syncData(req.body);
         res.json(response);
     }catch(err){
-        console.log("error while editing product", err);
+        return res.status(400).send({
+            message: 'This is an error!'
+        });
     }
 });
 

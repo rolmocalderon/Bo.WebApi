@@ -31,8 +31,9 @@ async function insertProduct(req){
 async function syncData(req){
   let syncProductsResponse = await this.syncProducts(req.productsData);
   let syncProductMeasuresResponse = await this.syncProductsMeasure(req.productMeasuresData);
+  let syncProductPickedResponse = await this.syncProductPicked(req.productsPicked);
 
-  return {syncProductsResponse, syncProductMeasuresResponse};
+  return {syncProductsResponse, syncProductMeasuresResponse, syncProductPickedResponse};
 }
 
 async function syncProducts(reqProducts){
@@ -62,6 +63,21 @@ async function syncProductsMeasure(reqProductsMeasure){
   return response;
 }
 
+async function syncProductPicked(reqProductsMeasure){
+  var query = "INSERT INTO productpicked (productid, measureid, pickupid, amount) VALUES ";
+  for(let product of reqProductsMeasure){
+    if(product.amount > 0){
+      query += `(${product.productid}, '${product.measureid}','${product.pickupid}', '${product.amount}'), `;
+    }
+  }
+
+  query = query.substring(0, query.lastIndexOf(',')) + " ";
+  query += "ON CONFLICT (productid, measureid, pickupid) DO UPDATE SET amount = EXCLUDED.amount RETURNING id;"
+  let response = await db.query(query);
+  
+  return response;
+}
+
 async function getMeasures(){
   let query = 'SELECT id, type FROM measures ORDER BY type';
   const rows = await db.query(query);
@@ -78,5 +94,6 @@ module.exports = {
   insertProduct,
   syncData,
   syncProducts,
-  syncProductsMeasure
+  syncProductsMeasure,
+  syncProductPicked
 }

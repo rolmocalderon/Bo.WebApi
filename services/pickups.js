@@ -3,7 +3,24 @@ const helper = require('../helper');
 const config = require('../config');
 
 async function getPickupProducts(pickupId){
-    let query = `SELECT p.id, p.name, pm.measureid, m.type, COALESCE(NULL, pp.amount, 0) amount FROM products p LEFT JOIN productmeasures pm ON pm.productid = p.id LEFT JOIN measures m ON m.id = pm.measureid LEFT JOIN productpicked pp ON p.id = pp.productid AND m.id = pp.measureid AND pp.pickupid = ${pickupId} ORDER BY p.name;`;
+    let query = `SELECT p.id, 0 as subproductid, p.name as name, pm.measureid, m.type, COALESCE(NULL, pp.amount, 0) amount, 'false' as isSubproduct
+      FROM products p 
+      LEFT JOIN productmeasures pm 
+      ON pm.productid = p.id
+      LEFT JOIN measures m 
+      ON m.id = pm.measureid 
+      LEFT JOIN productpicked pp 
+      ON p.id = pp.productid AND m.id = pp.measureid AND pp.pickupid = ${pickupId}
+      UNION 
+      SELECT sp.productid as id, sp.id as subproductid, sp.name as name, pm.measureid, m.type, COALESCE(NULL, pp.amount, 0) amount, 'true' as isSubproduct
+      FROM subproducts sp
+      LEFT JOIN productmeasures pm 
+      ON pm.subproductid = sp.id 
+      LEFT JOIN measures m 
+      ON m.id = pm.measureid 
+      LEFT JOIN productpicked pp 
+      ON sp.id = pp.subproductid AND m.id = pp.measureid AND pp.pickupid = ${pickupId}
+      ORDER BY name;`;
     const rows = await db.query(query)
     const data = helper.emptyOrRows(rows);
   

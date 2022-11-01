@@ -113,7 +113,7 @@ async function syncProductPicked(reqProductsPicked){
         query += "INSERT INTO productpicked (measureid, pickupid, amount, subproductid) VALUES ";
         for(let product of subproducts){
           if(product.amount > 0){
-            query += `(NULL, '${product.measureid}','${product.pickupid}', '${product.amount}', ${product.subproductid}), `;
+            query += `('${product.measureid}','${product.pickupid}', '${product.amount}', ${product.subproductid}), `;
           }
         }
         query = query.substring(0, query.lastIndexOf(',')) + " ";

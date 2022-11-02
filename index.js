@@ -6,6 +6,7 @@ const port = process.env.PORT || 3000;
 const login = require('./routes/login');
 const pickups = require('./routes/pickups');
 const getPickupProducts = require('./routes/getPickupProducts');
+const getPickupProductsByDate = require('./routes/getPickupProductsByDate');
 const getPickupDates = require('./routes/getPickupDates');
 const insertPickup = require('./routes/insertPickup');
 //const insertCity = require('./routes/insertCity');
@@ -28,6 +29,7 @@ app.get('/', (req, res) => {
 app.use('/login', login);
 app.use('/getPickups', pickups);
 app.use('/getPickupProducts', getPickupProducts);
+app.use('/getPickupProductsByDate', getPickupProductsByDate);
 app.use('/getPickupDates', getPickupDates);
 app.use('/insertPickup', insertPickup);
 //app.use('/insertCity', insertCity);

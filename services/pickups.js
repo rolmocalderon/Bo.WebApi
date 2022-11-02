@@ -61,9 +61,28 @@ async function insert(req){
   }
 }
 
+async function getPickupProductsByDate(dates){
+  let query = `SELECT SUM(pp.amount), COALESCE(NULL, p.name, sp.name) AS name, SUM(pp.amount * m.weight) as weight
+    FROM productpicked pp 
+    LEFT JOIN products p 
+    ON pp.productid = p.id
+    LEFT JOIN subproducts sp 
+    ON pp.subproductid = sp.id
+    LEFT JOIN measures m
+    ON m.id = pp.measureid
+    WHERE pp.pickupid IN (SELECT id FROM pickups WHERE TO_TIMESTAMP(date, 'dd/MM/YYYY') > TO_TIMESTAMP('${dates.startDate}', 'dd/MM/YYYY'))
+    GROUP BY p.name, sp.name;`;
+
+    const rows = await db.query(query)
+    const data = helper.emptyOrRows(rows);
+  
+    return { data }
+}
+
 module.exports = {
   getMultiple,
   getPickupProducts,
+  getPickupProductsByDate,
   getPickupDates,
   insert
 }

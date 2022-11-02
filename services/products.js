@@ -95,30 +95,28 @@ async function syncProductPicked(reqProductsPicked){
   let query = '';
   
   if(reqProductsPicked && reqProductsPicked.filter(p => p.amount).length > 0){
-    if(reqProductsPicked.find(p => p.amount > 0)){
-      let products = reqProductsPicked.filter(p => !p.subproductid);
-      let subproducts = reqProductsPicked.filter(p => p.subproductid !== 0);
-      if(products.length > 0){
-        query = "INSERT INTO productpicked (productid, measureid, pickupid, amount, subproductid) VALUES ";
-        for(let product of products){
-          if(product.amount > 0){
-            query += `(${product.productid}, '${product.measureid}','${product.pickupid}', '${product.amount}', NULL), `;
-          }
+    let products = reqProductsPicked.filter(p => !p.subproductid);
+    let subproducts = reqProductsPicked.filter(p => p.subproductid !== 0);
+    if(products.length > 0 && products.find(p => p.amount > 0)){
+      query = "INSERT INTO productpicked (productid, measureid, pickupid, amount, subproductid) VALUES ";
+      for(let product of products){
+        if(product.amount > 0){
+          query += `(${product.productid}, '${product.measureid}','${product.pickupid}', '${product.amount}', NULL), `;
         }
-        query = query.substring(0, query.lastIndexOf(',')) + " ";
-        query += "ON CONFLICT (productid, measureid, pickupid) DO UPDATE SET amount = EXCLUDED.amount RETURNING id;"
       }
-     
-      if(subproducts.length > 0){
-        query += "INSERT INTO productpicked (measureid, pickupid, amount, subproductid) VALUES ";
-        for(let product of subproducts){
-          if(product.amount > 0){
-            query += `('${product.measureid}','${product.pickupid}', '${product.amount}', ${product.subproductid}), `;
-          }
+      query = query.substring(0, query.lastIndexOf(',')) + " ";
+      query += "ON CONFLICT (productid, measureid, pickupid) DO UPDATE SET amount = EXCLUDED.amount RETURNING id;"
+    }
+    
+    if(subproducts.length > 0 && subproducts.find(p => p.amount > 0)){
+      query += "INSERT INTO productpicked (measureid, pickupid, amount, subproductid) VALUES ";
+      for(let product of subproducts){
+        if(product.amount > 0){
+          query += `('${product.measureid}','${product.pickupid}', '${product.amount}', ${product.subproductid}), `;
         }
-        query = query.substring(0, query.lastIndexOf(',')) + " ";
-        query += "ON CONFLICT (measureid, pickupid, subproductid) DO UPDATE SET amount = EXCLUDED.amount RETURNING id;"
       }
+      query = query.substring(0, query.lastIndexOf(',')) + " ";
+      query += "ON CONFLICT (measureid, pickupid, subproductid) DO UPDATE SET amount = EXCLUDED.amount RETURNING id;"
     }
   }
 

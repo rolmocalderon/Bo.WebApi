@@ -70,7 +70,7 @@ async function getPickupProductsByDate(dates){
     ON pp.subproductid = sp.id
     LEFT JOIN measures m
     ON m.id = pp.measureid
-    WHERE pp.pickupid IN (SELECT id FROM pickups WHERE TO_TIMESTAMP(date, 'dd/MM/YYYY') > TO_TIMESTAMP('${dates.startDate}', 'dd/MM/YYYY') AND TO_TIMESTAMP('${dates.endDate}', 'dd/MM/YYYY'))
+    WHERE pp.pickupid IN (SELECT id FROM pickups WHERE TO_TIMESTAMP(date, 'dd/MM/YYYY') > TO_TIMESTAMP('${dates.startDate}', 'dd/MM/YYYY') AND TO_TIMESTAMP('${dates.endDate}', 'dd/MM/YYYY') < TO_TIMESTAMP(date, 'dd/MM/YYYY'))
     GROUP BY p.name, sp.name;`;
 
     const rows = await db.query(query)

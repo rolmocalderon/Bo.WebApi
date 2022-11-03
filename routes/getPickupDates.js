@@ -4,7 +4,7 @@ const pickups = require('../services/pickups');
 
 router.get('/', async function(req, res, next){
     try{
-        res.json(await pickups.getPickupDates(req.query.pickupName));
+        res.json(await pickups.getPickupDates(req.query.pickupName, req.query.cityId));
     }catch(err){
 
     }

@@ -29,8 +29,8 @@ async function getPickupProducts(pickupId){
     }
   }
 
-  async function getPickupDates(pickupName){
-    let query = `SELECT id, date FROM pickups WHERE name = '${pickupName.trim()}';`;
+  async function getPickupDates(pickupName, cityId){
+    let query = `SELECT id, date FROM pickups WHERE name = '${pickupName.trim()}' AND cityid = ${cityId};`;
     const rows = await db.query(query);
     let data = helper.emptyOrRows(rows);
     data = helper.getUniqueValues(data);
@@ -61,21 +61,21 @@ async function insert(req){
   }
 }
 
-async function getPickupProductsByDate(dates){
+async function getPickupProductsByDate(req){
   let query = `SELECT SUM(pp.amount), COALESCE(NULL, p.name, sp.name) AS name, SUM(pp.amount * m.weight) as weight
-    FROM productpicked pp 
+    FROM productpicked pp
     LEFT JOIN products p 
     ON pp.productid = p.id
     LEFT JOIN subproducts sp 
     ON pp.subproductid = sp.id
     LEFT JOIN measures m
     ON m.id = pp.measureid
-    WHERE pp.pickupid IN (SELECT id FROM pickups WHERE TO_TIMESTAMP(date, 'dd/MM/YYYY') >= TO_TIMESTAMP('${dates.startDate}', 'dd/MM/YYYY') AND TO_TIMESTAMP(date, 'dd/MM/YYYY') <= TO_TIMESTAMP('${dates.endDate}', 'dd/MM/YYYY'))
+    WHERE pp.pickupid IN (SELECT id FROM pickups WHERE TO_TIMESTAMP(date, 'dd/MM/YYYY') >= TO_TIMESTAMP('${req.startDate}', 'dd/MM/YYYY') AND TO_TIMESTAMP(date, 'dd/MM/YYYY') <= TO_TIMESTAMP('${req.endDate}', 'dd/MM/YYYY') AND cityid = ${req.cityId})
     GROUP BY p.name, sp.name;`;
 
     const rows = await db.query(query)
     const data = helper.emptyOrRows(rows);
-  
+
     return { data }
 }
 

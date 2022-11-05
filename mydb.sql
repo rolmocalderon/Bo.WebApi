@@ -10,7 +10,8 @@ CREATE TABLE [IF NOT EXISTS] users (
 
 CREATE TABLE [IF NOT EXISTS] products (
    id INT serial PRIMARY KEY,
-   name VARCHAR(50) NOT NULL
+   name VARCHAR(50) NOT NULL,
+   monthlyaverage NUMERIC
 );
 
 CREATE TABLE [IF NOT EXISTS] cities (
@@ -53,8 +54,10 @@ CREATE TABLE [IF NOT EXISTS] productmeasures (
    subproductid INT NOT NULL
 );
 
-CREATE UNIQUE INDEX productmeasures_unique ON productmeasures (measureid,pickupid,productid);
-CREATE UNIQUE INDEX subproductmeasures_unique ON productmeasures (measureid,pickupid,subproductid);
+CREATE UNIQUE INDEX productmeasures_unique ON productmeasures (measureid,productid);
+CREATE UNIQUE INDEX subproductmeasures_unique ON productmeasures (measureid,subproductid);
+CREATE UNIQUE INDEX subproductpicked_unique ON productpicked (measureid,pickupid,productid);
+CREATE UNIQUE INDEX subproductpicked_unique ON productpicked (measureid,pickupid,subproductid);
 
 INSERT INTO products (name) VALUES ('Leche');
 INSERT INTO products (name) VALUES ('Pasta');
@@ -101,3 +104,45 @@ INSERT INTO users (name, password, category, cityid) VALUES ('pau', 'testing', '
 INSERT INTO users (name, password, category, cityid) VALUES ('paloma', 'testing', 'Admin');
 INSERT INTO users (name, password, category, cityid) VALUES ('bcn1', 'testing', 'User', 2);
 INSERT INTO users (name, password, category, cityid) VALUES ('vcn1', 'testing', 'User', 3);
+
+INSERT INTO productmeasures (productid, measureid, subproductid) VALUES (2, 3, NULL); /* LECHE - 1 litro */
+INSERT INTO productmeasures (productid, measureid, subproductid) VALUES (3, 2, NULL); /* PASTA - 1 kilo */
+INSERT INTO productmeasures (productid, measureid, subproductid) VALUES (3, 8, NULL); /* PASTA - 500g */
+INSERT INTO productmeasures (productid, measureid, subproductid) VALUES (4, 2, NULL); /* LEGUMBRE - 1 kilo */
+INSERT INTO productmeasures (productid, measureid, subproductid) VALUES (4, 8, NULL); /* LEGUMBRE - 500g */
+INSERT INTO productmeasures (productid, measureid, subproductid) VALUES (5, 4, NULL); /* GALLETAS O BOLLERIA - 1 Paquete */
+INSERT INTO productmeasures (productid, measureid, subproductid) VALUES (6, 2, NULL); /* ARROZ - 1 kilo */
+INSERT INTO productmeasures (productid, measureid, subproductid) VALUES (7, 3, NULL); /* SOPAS - 1 litro */
+--INSERT INTO productmeasures (productid, measureid, subproductid) VALUES (8, 3, NULL); /* CONSERVAS - ? */
+--INSERT INTO productmeasures (productid, measureid, subproductid) VALUES (9, 3, NULL); /* SALSAS - 250g */
+--INSERT INTO productmeasures (productid, measureid, subproductid) VALUES (9, 3, NULL); /* SALSAS - 500g */
+INSERT INTO productmeasures (productid, measureid, subproductid) VALUES (10, 2, NULL); /* AZUCAR - 1 kilo */
+INSERT INTO productmeasures (productid, measureid, subproductid) VALUES (11, 2, NULL); /* HARINA - 1 kilo */
+INSERT INTO productmeasures (productid, measureid, subproductid) VALUES (12, 3, NULL); /* ACEITE - 1 litro */
+--INSERT INTO productmeasures (productid, measureid, subproductid) VALUES (13, 3, NULL); /* POTITOS - ? */
+--INSERT INTO productmeasures (productid, measureid, subproductid) VALUES (14, 3, NULL); /* PAPILLAS - ? */
+--INSERT INTO productmeasures (productid, measureid, subproductid) VALUES (15, 3, NULL); /* LECHE INFANTIL - ? */
+INSERT INTO productmeasures (productid, measureid, subproductid) VALUES (16, 5, NULL); /* PAÑALES - Talla 0 */
+INSERT INTO productmeasures (productid, measureid, subproductid) VALUES (16, 6, NULL); /* PAÑALES - Talla 1 */
+INSERT INTO productmeasures (productid, measureid, subproductid) VALUES (16, 9, NULL); /* PAÑALES - Talla 2 */
+INSERT INTO productmeasures (productid, measureid, subproductid) VALUES (16, 10, NULL); /* PAÑALES - Talla 3 */
+INSERT INTO productmeasures (productid, measureid, subproductid) VALUES (16, 11, NULL); /* PAÑALES - Talla 4 */
+INSERT INTO productmeasures (productid, measureid, subproductid) VALUES (17, 4, NULL); /* TOALLITAS - 1 Paquete */
+
+INSERT INTO productmeasures (productid, measureid, subproductid) VALUES (NULL, 3, 1); /* CHAMPU - 1 litro */
+INSERT INTO productmeasures (productid, measureid, subproductid) VALUES (NULL, 4, 2); /* COMPRESAS - 1 Paquete */
+INSERT INTO productmeasures (productid, measureid, subproductid) VALUES (NULL, 4, 3); /* TAMPONES - 1 Paquete */
+
+
+
+/* FUNCTIONS */
+CREATE FUNCTION mul_sfunc(anyelement, anyelement) RETURNS anyelement
+   LANGUAGE sql AS 'SELECT $1 * coalesce($2, 1)';
+
+CREATE AGGREGATE mul(anyelement) (
+   STYPE = anyelement,
+   INITCOND = 1,
+   SFUNC = mul_sfunc,
+   COMBINEFUNC = mul_sfunc,
+   PARALLEL = SAFE
+);

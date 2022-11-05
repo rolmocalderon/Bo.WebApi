@@ -30,7 +30,7 @@ async function getPickupProducts(pickupId){
   }
 
   async function getPickupDates(pickupName, cityId){
-    let query = `SELECT id, date FROM pickups WHERE name = '${pickupName.trim()}' AND cityid = ${cityId};`;
+    let query = `SELECT id, date, cityid FROM pickups WHERE name = '${pickupName.trim()}' AND cityid = ${cityId};`;
     const rows = await db.query(query);
     let data = helper.emptyOrRows(rows);
     data = helper.getUniqueValues(data);
@@ -87,11 +87,28 @@ async function getTopPickups(cityId, limit = 5){
   return { data };
 }
 
+async function getNeededProducts(){
+  let query = `SELECT p.name, SUM(COALESCE(pp.amount * m.weight, 0)) as amount, p.monthlyaverage
+    FROM products p
+    LEFT JOIN productpicked pp ON p.id = pp.productid AND pp.pickupid IN (SELECT id FROM pickups WHERE extract('day' FROM date_trunc('day', now() - to_date(date, 'dd/MM/YYYY')::date)) < 0 AND extract('day' FROM date_trunc('day', now() - to_date(date, 'dd/MM/YYYY')::date)) > -10)
+    LEFT JOIN measures m ON pp.measureid = m.id
+    GROUP BY p.name, p.monthlyaverage
+    ORDER BY amount ASC;`;
+  
+    const rows = await db.query(query)
+    const data = helper.emptyOrRows(rows);
+  
+    return { data };
+}
+
 module.exports = {
   getMultiple,
   getPickupProducts,
   getPickupProductsByDate,
   getPickupDates,
   insert,
-  getTopPickups
+  getTopPickups,
+  getNeededProducts
 }
+
+""

@@ -13,6 +13,7 @@ const insertPickup = require('./routes/insertPickup');
 const cities = require('./routes/cities');
 const getMeasures = require('./routes/getMeasures');
 const insertProduct = require('./routes/insertProduct');
+const getTopPickups = require('./routes/getTopPickups');
 
 app.use(cors())
 app.use(bodyParser.json());
@@ -36,6 +37,7 @@ app.use('/insertPickup', insertPickup);
 app.use('/getCities', cities);
 app.use('/getMeasures', getMeasures);
 app.use('/syncProducts', insertProduct);
+app.use('/getTopPickups', getTopPickups);
 
 /* Error handler middleware */
 app.use((err, req, res, next) => {

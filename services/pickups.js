@@ -79,10 +79,19 @@ async function getPickupProductsByDate(req){
     return { data }
 }
 
+async function getTopPickups(cityId, limit = 5){
+  let query = `SELECT p.name, SUM(pp.amount * m.weight) as amount FROM pickups p JOIN productpicked pp ON p.id = pp.pickupid LEFT JOIN measures m ON pp.measureid = m.id WHERE p.cityid = ${cityId} GROUP BY p.id ORDER BY amount DESC limit ${limit};`;
+  const rows = await db.query(query)
+  const data = helper.emptyOrRows(rows);
+
+  return { data };
+}
+
 module.exports = {
   getMultiple,
   getPickupProducts,
   getPickupProductsByDate,
   getPickupDates,
-  insert
+  insert,
+  getTopPickups
 }

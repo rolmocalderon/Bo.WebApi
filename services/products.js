@@ -2,7 +2,7 @@ const db = require('./db');
 const helper = require('../helper');
 
 async function getMultiple(page = 1){
-  const rows = await db.query(`SELECT * FROM products;`);
+  const rows = await db.query(`SELECT * FROM products ORDER BY name;`);
   const data = helper.emptyOrRows(rows);
   const meta = {page};
 

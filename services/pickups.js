@@ -89,10 +89,11 @@ async function getTopPickups(cityId, limit = 5){
 
 async function getNeededProducts(cityId){
   let query = `SELECT p.name, SUM(COALESCE(pp.amount * m.weight, 0)) as amount, p.monthlyaverage
-    FROM products p
-    LEFT JOIN productpicked pp ON p.id = pp.productid AND pp.pickupid IN (SELECT id FROM pickups WHERE extract('day' FROM date_trunc('day', now() - to_date(date, 'dd/MM/YYYY')::date)) < 0 AND extract('day' FROM date_trunc('day', now() - to_date(date, 'dd/MM/YYYY')::date)) > -10)
+    FROM productpicked pp
+    LEFT JOIN products p 
+    ON pp.productid = p.id
     LEFT JOIN measures m ON pp.measureid = m.id
-    LEFT JOIN pickups pc ON pc.cityid = ${cityId}
+    WHERE p.id = pp.productid AND pp.pickupid IN (SELECT id FROM pickups WHERE extract('day' FROM date_trunc('day', now() - to_date(date, 'dd/MM/YYYY')::date)) > 0 AND extract('day' FROM date_trunc('day', now() - to_date(date, 'dd/MM/YYYY')::date)) < 30 AND cityid = 2)
     GROUP BY p.name, p.monthlyaverage
     ORDER BY amount ASC;`;
   
@@ -111,5 +112,3 @@ module.exports = {
   getTopPickups,
   getNeededProducts
 }
-
-""

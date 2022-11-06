@@ -136,13 +136,5 @@ INSERT INTO productmeasures (productid, measureid, subproductid) VALUES (NULL, 4
 
 
 /* FUNCTIONS */
-CREATE FUNCTION mul_sfunc(anyelement, anyelement) RETURNS anyelement
-   LANGUAGE sql AS 'SELECT $1 * coalesce($2, 1)';
 
-CREATE AGGREGATE mul(anyelement) (
-   STYPE = anyelement,
-   INITCOND = 1,
-   SFUNC = mul_sfunc,
-   COMBINEFUNC = mul_sfunc,
-   PARALLEL = SAFE
-);
+SELECT SETVAL('productmeasures_id_seq', 1);

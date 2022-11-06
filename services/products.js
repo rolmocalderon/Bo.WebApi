@@ -79,7 +79,7 @@ async function syncProductsMeasure(reqProductsMeasure){
         }
       }
       query = query.substring(0, query.lastIndexOf(',')) + " ";
-      query += "ON CONFLICT (productid, measureid) DO NOTHING RETURNING id;"
+      query += "ON CONFLICT (subproductid, measureid) DO NOTHING RETURNING id;"
     }
 
     if(query !== ''){

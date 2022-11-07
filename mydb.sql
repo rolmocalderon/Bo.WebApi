@@ -11,7 +11,8 @@ CREATE TABLE [IF NOT EXISTS] users (
 CREATE TABLE [IF NOT EXISTS] products (
    id INT serial PRIMARY KEY,
    name VARCHAR(50) NOT NULL,
-   monthlyaverage NUMERIC
+   monthlyaverage NUMERIC DEFAULT 0 NOT NULL,
+   isurgent NUMERIC DEFAULT 0 NOT NULL
 );
 
 CREATE TABLE [IF NOT EXISTS] cities (

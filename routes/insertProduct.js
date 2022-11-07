@@ -2,15 +2,14 @@ const express = require('express');
 const router = express.Router();
 const products = require('../services/products');
 
-router.post('/', async function(req, res, next){
-    try{
-        let response = await products.syncData(req.body);
-        res.json(response);
-    }catch(err){
-        return res.status(400).send({
-            message: 'This is an error!'
-        });
-    }
+router.post('/', async function(req, res, next) {
+  try {
+        console.log("insert product")
+        res.json(await products.insert(req.body));
+  } catch (err) {
+        console.error(`Error while loging `, err.message);
+        next(err);
+  }
 });
 
 module.exports = router;

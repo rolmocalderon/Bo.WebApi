@@ -14,6 +14,7 @@ const insertCity = require('./routes/insertCity');
 const cities = require('./routes/cities');
 const getMeasures = require('./routes/getMeasures');
 const insertProduct = require('./routes/insertProduct');
+const syncProducts = require('./routes/syncProducts');
 const getTopPickups = require('./routes/getTopPickups');
 const getNeededProducts = require('./routes/getNeededProducts');
 
@@ -39,7 +40,8 @@ app.use('/insertPickup', insertPickup);
 app.use('/insertCity', insertCity);
 app.use('/getCities', cities);
 app.use('/getMeasures', getMeasures);
-app.use('/syncProducts', insertProduct);
+app.use('/syncProducts', syncProducts);
+app.use('/insertProduct', insertProduct);
 app.use('/getTopPickups', getTopPickups);
 app.use('/getNeededProducts', getNeededProducts);
 

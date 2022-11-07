@@ -2,7 +2,7 @@ const db = require('./db');
 const helper = require('../helper');
 
 async function getMultiple(page = 1){
-  const rows = await db.query(`SELECT * FROM products ORDER BY name;`);
+  const rows = await db.query(`SELECT * FROM products ORDER BY id;`);
   const data = helper.emptyOrRows(rows);
   const meta = {page};
 
@@ -12,20 +12,23 @@ async function getMultiple(page = 1){
   }
 }
 
-async function insertProduct(req){
-  let obj = req.data ? req.data : req.body;
-  let amount = obj.data.productAmount;
-  let pickupId = obj.data.pickupId;
-  let measureId = obj.data.measure;
-  let productId = obj.data.productId;
-  let query = `INSERT INTO productpicked (amount, pickupId, measureId, productid) VALUES (${amount}, '${pickupId}, ${measureId}, ${productId});`;
-  const rows = await db.query(query);
-
-  let response = {
-    isOk: rows.affectedRows > 0,
-    status: rows.serverStatus
+async function insert(req){
+  var rows = [];
+  if(req.id && req.id !== ''){
+    rows = await db.query(`UPDATE products SET name = '${req.name}', monthlyaverage = ${Number(req.avg)}, isurgent = ${req.isUrgent} WHERE id = ${req.id};`);
+  }else{
+    rows = await db.query(`INSERT INTO products (name, monthlyaverage) VALUES ('${req.name}', ${req.avg}, isurgent = ${req.isUrgent});`);
   }
-  return response;
+  
+  let insertId = rows.insertId;
+  if(true){
+    let result = await db.query("SELECT nextval('products_id_seq');");
+    insertId = result[0].nextval - 1;
+  }
+
+  const data = helper.emptyOrRows(rows);
+  
+  return { data };
 }
 
 async function syncData(req){
@@ -140,7 +143,7 @@ async function getMeasures(){
 module.exports = {
   getMultiple,
   getMeasures,
-  insertProduct,
+  insert,
   syncData,
   syncProducts,
   syncProductsMeasure,

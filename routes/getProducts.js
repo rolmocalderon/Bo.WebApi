@@ -4,7 +4,7 @@ const products = require('../services/products');
 
 router.get('/', async function(req, res, next){
     try{
-        res.json(await products.getMultiple());
+        res.json(await products.getMultiple(req.query));
     }catch(err){
 
     }

@@ -11,8 +11,7 @@ CREATE TABLE [IF NOT EXISTS] users (
 CREATE TABLE [IF NOT EXISTS] products (
    id INT serial PRIMARY KEY,
    name VARCHAR(50) NOT NULL,
-   monthlyaverage NUMERIC DEFAULT 0 NOT NULL,
-   isurgent NUMERIC DEFAULT 0 NOT NULL
+   monthlyaverage NUMERIC DEFAULT 0 NOT NULL
 );
 
 CREATE TABLE [IF NOT EXISTS] cities (
@@ -53,6 +52,12 @@ CREATE TABLE [IF NOT EXISTS] productmeasures (
    productid INT NOT NULL,
    measureid INT NOT NULL,
    subproductid INT NOT NULL
+);
+
+CREATE TABLE urgentproducts (
+   id serial PRIMARY KEY,
+   productid INT NOT NULL,
+   cityid INT NOT NULL
 );
 
 CREATE UNIQUE INDEX productmeasures_unique ON productmeasures (measureid,productid);

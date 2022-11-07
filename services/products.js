@@ -1,23 +1,22 @@
 const db = require('./db');
 const helper = require('../helper');
 
-async function getMultiple(page = 1){
-  const rows = await db.query(`SELECT * FROM products ORDER BY id;`);
+async function getMultiple(req){
+  var city = req.city ? req.city : 2;
+  const rows = await db.query(`SELECT p.id, p.name, p.monthlyaverage, CASE WHEN up.id IS NULL THEN 0 WHEN productid IS NOT NULL THEN 1 END as isurgent FROM products p LEFT JOIN urgentproducts up ON p.id = up.productid AND up.cityid = ${city} ORDER BY p.id;`);
   const data = helper.emptyOrRows(rows);
-  const meta = {page};
 
   return {
-    data,
-    meta
+    data
   }
 }
 
 async function insert(req){
   var rows = [];
   if(req.id && req.id !== ''){
-    rows = await db.query(`UPDATE products SET name = '${req.name}', monthlyaverage = ${Number(req.avg)}, isurgent = ${req.isUrgent} WHERE id = ${req.id};`);
+    rows = await db.query(`UPDATE products SET name = '${req.name}', monthlyaverage = ${Number(req.avg)} WHERE id = ${req.id};`);
   }else{
-    rows = await db.query(`INSERT INTO products (name, monthlyaverage) VALUES ('${req.name}', ${req.avg}, isurgent = ${req.isUrgent});`);
+    rows = await db.query(`INSERT INTO products (name, monthlyaverage) VALUES ('${req.name}', ${req.avg});`);
   }
   
   let insertId = rows.insertId;
@@ -29,6 +28,18 @@ async function insert(req){
   const data = helper.emptyOrRows(rows);
   
   return { data };
+}
+
+async function updateUrgentProduct(req){
+  var rows = [];
+
+  if(req.isAdd){
+    rows = await db.query(`INSERT INTO urgentproducts (cityid, productid) VALUES(${req.cityId},${req.productId});`);
+  }else{
+    rows = await db.query(`DELETE FROM urgentproducts WHERE cityid = ${req.cityId} AND productid = ${req.productId};`);
+  }
+
+  return { data: helper.emptyOrRows(rows) };
 }
 
 async function syncData(req){
@@ -147,5 +158,6 @@ module.exports = {
   syncData,
   syncProducts,
   syncProductsMeasure,
-  syncProductPicked
+  syncProductPicked,
+  updateUrgentProduct
 }

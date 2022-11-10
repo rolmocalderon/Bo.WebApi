@@ -96,7 +96,7 @@ async function getNeededProducts(cityId){
     WHERE p.id = pp.productid AND pp.pickupid IN (SELECT id FROM pickups WHERE extract('day' FROM date_trunc('day', now() - to_date(date, 'dd/MM/YYYY')::date)) > 0 AND extract('day' FROM date_trunc('day', now() - to_date(date, 'dd/MM/YYYY')::date)) < 30 AND cityid = ${cityId})
     GROUP BY p.name, p.monthlyaverage
     ORDER BY amount ASC;`;*/
-    let query = "SELECT * FROM products WHERE isurgent = 1;";
+    let query = `SELECT p.id, p.name, p.monthlyaverage FROM products LEFT JOIN urgentproducts up ON p.id = up.productid AND up.cityid = ${cityId}`;
   
     const rows = await db.query(query)
     const data = helper.emptyOrRows(rows);

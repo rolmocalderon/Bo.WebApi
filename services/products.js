@@ -1,9 +1,18 @@
 const db = require('./db');
 const helper = require('../helper');
 
-async function getMultiple(req){
-  var city = req.city ? req.city : 2;
-  const rows = await db.query(`SELECT p.id, p.name, p.monthlyaverage, CASE WHEN up.id IS NULL THEN 0 WHEN productid IS NOT NULL THEN 1 END as isurgent FROM products p LEFT JOIN urgentproducts up ON p.id = up.productid AND up.cityid = ${city} ORDER BY p.id;`);
+async function getProducts(){
+  const rows = await db.query(`SELECT * FROM products;`);
+  const data = helper.emptyOrRows(rows);
+
+  return {
+    data
+  }
+}
+
+async function getUrgentProducts(req){
+  console.log(req)
+  const rows = await db.query(`SELECT p.id, p.name, p.monthlyaverage, CASE WHEN up.id IS NULL THEN 0 WHEN productid IS NOT NULL THEN 1 END as isurgent FROM products p LEFT JOIN urgentproducts up ON p.id = up.productid AND up.cityid = ${req.cityId} ORDER BY p.id;`);
   const data = helper.emptyOrRows(rows);
 
   return {
@@ -152,7 +161,8 @@ async function getMeasures(){
 }
 
 module.exports = {
-  getMultiple,
+  getProducts,
+  getUrgentProducts,
   getMeasures,
   insert,
   syncData,

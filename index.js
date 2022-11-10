@@ -18,6 +18,7 @@ const insertProduct = require('./routes/insertProduct');
 const getTopPickups = require('./routes/getTopPickups');
 const getNeededProducts = require('./routes/getNeededProducts');
 const updateUrgentProduct = require('./routes/updateUrgentProduct');
+const getUrgentProducts = require('./routes/getUrgentProducts');
 
 app.use(cors())
 app.use(bodyParser.json());
@@ -46,6 +47,7 @@ app.use('/syncProducts', syncProducts);
 app.use('/getTopPickups', getTopPickups);
 app.use('/getNeededProducts', getNeededProducts);
 app.use('/updateUrgentProduct', updateUrgentProduct);
+app.use('/getUrgentProducts', getUrgentProducts);
 
 /* Error handler middleware */
 app.use((err, req, res, next) => {

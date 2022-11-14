@@ -5,7 +5,7 @@ const pickups = require('../services/pickups');
 /* GET programming languages. */
 router.get('/', async function(req, res, next) {
   try {
-        res.json(await pickups.getMultiple(req.query.cityId));
+        res.json(await pickups.getMultiple(req.query));
   } catch (err) {
         console.error(`Error while getting pickups `, err.message);
         next(err);

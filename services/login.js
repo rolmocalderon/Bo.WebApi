@@ -12,7 +12,7 @@ async function getSingle(user){
 
 async function getMultiple(page = 1){
   const offset = helper.getOffset(page, config.listPerPage);
-  const rows = await db.query(`SELECT id, name FROM users;`);
+  const rows = await db.query(`SELECT id, name, cityid FROM users;`);
 
   const data = helper.emptyOrRows(rows);
   const meta = {page};

@@ -1,5 +1,6 @@
 //POOL POSTGRESQL
 const Pool = require("pg").Pool;
+require('dotenv').config()
 console.log("LOGING", process.env.PGHOST)
 const pool = new Pool({
     host: process.env.PGHOST,

@@ -1,5 +1,3 @@
-DROP DATABASE "d6tirr3ic3t3r9";
-
 CREATE TABLE users (
    id serial PRIMARY KEY,
    name VARCHAR(50) NOT NULL,
@@ -100,10 +98,10 @@ INSERT INTO measures (type, weight) VALUES ('250ml', 0.25); -- 4
 INSERT INTO measures (type, weight) VALUES ('500ml', 0.5); -- 5
 INSERT INTO measures (type, weight) VALUES ('1 Litro', 1); -- 6
 INSERT INTO measures (type, weight) VALUES ('Talla 0', 0); -- 7
-INSERT INTO measures (type, weight) VALUES ('Talla 1', 0); -- 8
-INSERT INTO measures (type, weight) VALUES ('Talla 2', 0); -- 9
-INSERT INTO measures (type, weight) VALUES ('Talla 3', 0); -- 10
-INSERT INTO measures (type, weight) VALUES ('Talla 4', 0); -- 11
+--INSERT INTO measures (type, weight) VALUES ('Talla 1', 0); -- 8
+--INSERT INTO measures (type, weight) VALUES ('Talla 2', 0); -- 9
+--INSERT INTO measures (type, weight) VALUES ('Talla 3', 0); -- 10
+--INSERT INTO measures (type, weight) VALUES ('Talla 4', 0); -- 11
 INSERT INTO measures (type, weight) VALUES ('1 Paquete', 0); -- 12
 
 INSERT INTO users (name, password, category) VALUES ('pau', 'testing', 'Admin');

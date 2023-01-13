@@ -1,6 +1,5 @@
 const db = require('./db');
 const helper = require('../helper');
-const config = require('../config');
 
 async function getPickupProducts(pickupId){
   let query = `SELECT p.id, 0 as subproductid, p.name as name, pm.measureid, m.type, COALESCE(NULL, pp.amount, 0) amount, 'false' as isSubproduct

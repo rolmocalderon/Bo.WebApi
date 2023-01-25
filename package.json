@@ -1,0 +1,30 @@
+{
+  "name": "as.webapi",
+  "version": "1.0.0",
+  "description": "A demo REST API with Node.js Express.js and MySQL for most popular programming languages",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rolmocalderon/Bo.WebApi"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.19.1",
+    "cors": "^2.8.5",
+    "dotenv": "^16.0.3",
+    "express": "^4.17.2",
+    "mysql2": "^2.3.3",
+    "pg": "^8.7.3"
+  },
+  "engines": {
+    "npm": ">=8.0.0",
+    "node": ">=16.0.0"
+  },
+  "type": "module"
+}

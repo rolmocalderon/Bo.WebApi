@@ -32,6 +32,9 @@ class PickupService {
     }
 
     async insert(req){
+        if(!req.name || !req.date){
+            return;
+        }
         return await pickupRepository.insert(req);
     }
 }

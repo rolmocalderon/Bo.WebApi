@@ -72,12 +72,15 @@ class PickupProxy{
     }
 
     async insert(pickupObj){
-        query(`INSERT INTO pickups (name, date, cityId) VALUES ('${pickupObj.placeName}', '${pickupObj.date}', ${pickupObj.cityId})`,(error, results) => {
-            if (error) return res.json({ error: error });
-        });
+        let result = '';
+        if(pickupObj.id && pickupObj.id !== ''){
+            result = await query(`UPDATE pickups SET name = '${pickupObj.placeName}', date = '${pickupObj.date}' WHERE id = ${pickupObj.id};`);
+          }else{
+            result = await query(`INSERT INTO pickups (name, date, cityId) VALUES ('${pickupObj.placeName}', '${pickupObj.date}', ${pickupObj.cityId})`);
+          }
       
-        return [];
-      }
+        return result;
+    }
 }
 
 export let pickupProxy = new PickupProxy();

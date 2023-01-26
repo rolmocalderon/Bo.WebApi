@@ -1,4 +1,4 @@
-import {citiesProxy} from '../proxyServices/citiesProxy.js';
+const citiesProxy = require('../proxyServices/citiesProxy.js');
 
 class CitiesRepository{
     getAll(){
@@ -18,4 +18,4 @@ class CitiesRepository{
     }
 }
 
-export let citiesRepository = new CitiesRepository();
+module.exports = new CitiesRepository();

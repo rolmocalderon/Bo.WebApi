@@ -1,12 +1,12 @@
-import express from 'express';
-import bodyParser from 'body-parser';
-import cors from 'cors';
-import productsRouter from './routes/products.js';
-import citiesRouter from './routes/cities.js';
-import loginRouter from './routes/login.js';
-import pickupsRouter from './routes/pickups.js';
-
+const express = require("express");
+const bodyParser = require("body-parser");
+const cors = require("cors");
 const app = express();
+const productsRouter = require("./routes/products.js");
+const pickupsRouter = require("./routes/pickups.js");
+const loginRouter = require("./routes/login.js");
+const citiesRouter = require("./routes/cities.js");
+
 const port = process.env.PORT || 3000;
 
 app.use(cors())

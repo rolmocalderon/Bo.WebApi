@@ -1,5 +1,5 @@
-import pg from 'pg';
-import dotenv from "dotenv";
+const pg = require('pg');
+const dotenv = require('dotenv');
 dotenv.config();
 
 const { Pool } = pg;
@@ -13,9 +13,9 @@ const postgre = new Pool({
     ssl: {
         rejectUnauthorized: false
     }
-  })
+});
 
-export default postgre;
+module.exports = postgre;
 
 //ELEPHANT
 //postgres://ppdrywgj:DNiNrZu9Urz6amyqZgp7FRthhMb__lrs@mel.db.elephantsql.com/ppdrywgj

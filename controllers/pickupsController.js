@@ -1,4 +1,4 @@
-import {pickupService} from '../services/pickupService.js';
+const pickupService = require('../services/pickupService.js');
 
 class PickupsController{
     async getAll(req, res){
@@ -36,4 +36,4 @@ class PickupsController{
     }
 }
 
-export const pickupsController = new PickupsController();
+module.exports = new PickupsController();

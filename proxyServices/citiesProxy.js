@@ -1,4 +1,4 @@
-import query from '../helpers/db.js';
+const query = require('../helpers/db.js');
 
 class CitiesProxy{
     async getAll(){
@@ -25,4 +25,4 @@ class CitiesProxy{
     }
 }
 
-export let citiesProxy = new CitiesProxy();
+module.exports = new CitiesProxy();

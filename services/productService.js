@@ -1,7 +1,8 @@
-import { productRepository } from '../repository/productRepository.js';
+const productRepository = require('../repository/productRepository.js');
 
 class ProductService {
     async getAll(){
+        console.log("service");
         let products = await productRepository.getAll();
         //products = [...new Map(products.map(product => [product["id"], product])).values()];
         return products;
@@ -31,5 +32,4 @@ class ProductService {
         return await productRepository.insertProduct(req);
     }
 }
-
-export let productService = new ProductService();
+module.exports = new ProductService();

@@ -1,4 +1,4 @@
-import {loginProxy} from '../proxyServices/loginProxy.js';
+const loginProxy = require('../proxyServices/loginProxy.js');
 
 class LoginRepository{
     doLogin(user){
@@ -14,4 +14,4 @@ class LoginRepository{
     }
 }
 
-export let loginRepository = new LoginRepository();
+module.exports = new LoginRepository();

@@ -1,8 +1,9 @@
-import query from '../helpers/db.js';
-import QueryHelper from '../helpers/queryHelper.js';
+const query = require('../helpers/db.js');
+const QueryHelper = require('../helpers/queryHelper.js');
 
 class ProductsProxy{
     async getAll(){
+        console.log("proxy");
         let result = await query('SELECT p.id, p.name, pm.measureid FROM products p LEFT JOIN productmeasures pm ON pm.productid = p.id ORDER BY name;');
     
         return result;
@@ -97,4 +98,4 @@ class ProductsProxy{
     }
 }
 
-export let productsProxy = new ProductsProxy();
+module.exports = new ProductsProxy();

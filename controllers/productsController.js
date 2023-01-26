@@ -1,7 +1,8 @@
-import { productService } from '../services/productService.js';
+const productService = require('../services/productService.js');
 
 class ProductsController{
     async getAll(req, res){
+        console.log("controller");
         let products = await productService.getAll();
         res.json(products);
     }
@@ -42,26 +43,4 @@ class ProductsController{
     }
 }
 
-export const productsController = new ProductsController();
-
-/*
-    async sync(req, res){
-        let syncProductsResponse = await this.#syncProducts(req.productsData);
-        let syncProductMeasuresResponse = await this.#syncProductsMeasure(req.productMeasuresData);
-        //let syncProductPickedResponse = await this.#syncProductPicked(req.productsPicked);
-
-        res.json({
-            syncProductsResponse,
-            syncProductMeasuresResponse,
-            //syncProductPickedResponse
-        });
-    }
-
-    async #syncProducts(){
-        
-    }
-
-    async #syncProductsMeasure(){
-
-    }
-*/
+module.exports = new ProductsController();

@@ -1,6 +1,5 @@
-import express from "express";
-import {productsController} from '../controllers/productsController.js';
-
+const express =  require('express');
+const productsController = require('../controllers/productsController');
 const router = express.Router();
 
 //GET
@@ -14,4 +13,4 @@ router.post('/api/syncProductPicked', productsController.syncProductPicked);
 router.post('/api/updateUrgentProduct', productsController.updateUrgentProduct);
 router.post('/api/insertProduct', productsController.insertProduct);
 
-export default router;
+module.exports = router;

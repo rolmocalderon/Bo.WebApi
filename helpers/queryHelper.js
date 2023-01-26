@@ -35,4 +35,4 @@ class QueryHelper{
     }
 }
 
-export default QueryHelper;
+module.exports = QueryHelper;

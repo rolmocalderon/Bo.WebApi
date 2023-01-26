@@ -1,11 +1,13 @@
-import { citiesRepository } from '../repository/citiesRepository.js';
+const citiesRepository = require('../repository/citiesRepository.js');
 
-export class CitiesService{
-    static getAll(){
-        return citiesRepository.getAll();
+class CitiesService{
+    async getAll(){
+        return await citiesRepository.getAll();
     }
 
-    static insertCity(req){
-        return citiesRepository.insertCity(req);
+    async insertCity(req){
+        return await citiesRepository.insertCity(req);
     }
 }
+
+module.exports = new CitiesService();

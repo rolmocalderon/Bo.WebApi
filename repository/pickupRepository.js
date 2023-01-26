@@ -1,4 +1,4 @@
-import {pickupProxy} from '../proxyServices/pickupProxy.js';
+const pickupProxy = require('../proxyServices/pickupProxy.js');
 
 class PickupRepository{
     getAll(obj){
@@ -34,4 +34,4 @@ class PickupRepository{
     }
 }
 
-export let pickupRepository = new PickupRepository();
+module.exports = new PickupRepository();

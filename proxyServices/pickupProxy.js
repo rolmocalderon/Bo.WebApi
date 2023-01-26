@@ -1,4 +1,4 @@
-import query from '../helpers/db.js';
+const query = require('../helpers/db.js');
 
 class PickupProxy{
     async getAll(req){
@@ -83,4 +83,4 @@ class PickupProxy{
     }
 }
 
-export let pickupProxy = new PickupProxy();
+module.exports = new PickupProxy();

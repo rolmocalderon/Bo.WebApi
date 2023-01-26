@@ -1,7 +1,9 @@
-import { loginRepository } from '../repository/loginRepository.js';
+const loginRepository = require('../repository/loginRepository.js');
 
-export class LoginService {
-    static doLogin(req){
-        return loginRepository.doLogin(req);
+class LoginService {
+    async doLogin(req){
+        return await loginRepository.doLogin(req);
     }
 }
+
+module.exports = new LoginService();

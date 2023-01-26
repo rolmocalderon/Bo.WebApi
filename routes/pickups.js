@@ -1,5 +1,5 @@
-import express from "express";
-import {pickupsController} from '../controllers/pickupsController.js';
+const express = require('express');
+const pickupsController = require('../controllers/pickupsController.js');
 
 const router = express.Router();
 
@@ -13,4 +13,4 @@ router.get('/api/getTopPickups', pickupsController.getTopPickups);
 //POST
 router.post('/api/insertPickup', pickupsController.insertPickup);
 
-export default router;
+module.exports = router;

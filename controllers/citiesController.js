@@ -1,4 +1,4 @@
-import { CitiesService } from '../services/citiesService.js';
+const citiesService = require('../services/citiesService.js');
 
 class CitiesController{
     async getAll(req, res){
@@ -13,4 +13,4 @@ class CitiesController{
     }
 }
 
-export const citiesController = new CitiesController();
+module.exports = new CitiesController();

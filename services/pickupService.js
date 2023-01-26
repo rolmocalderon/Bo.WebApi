@@ -1,4 +1,4 @@
-import { pickupRepository } from '../repository/pickupRepository.js';
+const pickupRepository = require('../repository/pickupRepository.js');
 
 class PickupService {
     async getAll(req){
@@ -39,4 +39,4 @@ class PickupService {
     }
 }
 
-export let pickupService = new PickupService();
+module.exports = new PickupService();

@@ -1,4 +1,4 @@
-import query from '../helpers/db.js';
+const query =  require('../helpers/db.js');
 
 class LoginProxy{
     async doLogin(user){
@@ -9,4 +9,4 @@ class LoginProxy{
     }
 }
 
-export let loginProxy = new LoginProxy();
+module.exports = new LoginProxy();

@@ -1,5 +1,5 @@
-import express from "express";
-import {citiesController} from '../controllers/citiesController.js';
+const express = require('express');
+const citiesController = require('../controllers/citiesController.js');
 
 const router = express.Router();
 
@@ -9,4 +9,4 @@ router.get('/api/getCities', citiesController.getAll);
 //POST
 router.post('/api/insertCity', citiesController.insertCity);
 
-export default router;
+module.exports = router;

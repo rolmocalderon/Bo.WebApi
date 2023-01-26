@@ -1,4 +1,4 @@
-import postgre from './postgresql.js';
+const postgre = require('./postgresql');
 
 async function query(sql) {
     let response = {
@@ -17,4 +17,4 @@ async function query(sql) {
     return response;
 }
 
-export default query;
+module.exports = query;

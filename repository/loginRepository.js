@@ -1,8 +1,8 @@
 const loginProxy = require('../proxyServices/loginProxy.js');
 
 class LoginRepository{
-    doLogin(user){
-        return this.#doPromise(loginProxy.doLogin, user);
+    async doLogin(user){
+        return await this.#doPromise(loginProxy.doLogin, user);
     }
 
     #doPromise(callback, req){

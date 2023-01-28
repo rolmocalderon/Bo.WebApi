@@ -21,6 +21,4 @@ app.get("/", (req, res) => {
   res.json("Acción Solidaria");
 });
 
-app.get("/api/getProducts", () => console.log("me cago en la puta"));
-
 exports.app = functions.https.onRequest(app);

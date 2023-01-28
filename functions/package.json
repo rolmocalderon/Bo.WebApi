@@ -10,7 +10,7 @@
     "logs": "firebase functions:log"
   },
   "engines": {
-    "node": "8",
+    "node": ">=16.0.0",
     "npm": ">=8.0.0"
   },
   "main": "index.js",

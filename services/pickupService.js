@@ -1,9 +1,9 @@
-import { getAll as _getAll, getPickupProducts as _getPickupProducts, getPickupProductsByDate as _getPickupProductsByDate, getPickupDates as _getPickupDates, getTopPickups as _getTopPickups, insert as _insert } from '../repository/pickupRepository.js';
+const pickupRepository = require('../repository/pickupRepository.js');
 
 class PickupService {
     async getAll(req){
         let pickups = [];
-        let pickupResult = await _getAll(req);
+        let pickupResult = await pickupRepository.getAll(req);
         let today = new Date();
         pickupResult.forEach((pickup) => {
             if(pickup.date){
@@ -18,11 +18,11 @@ class PickupService {
     }
 
     async getPickupProducts(req){
-        return await _getPickupProducts(req.pickupId);
+        return await pickupRepository.getPickupProducts(req.pickupId);
     }
 
     async getPickupProductsByDate(req){
-        return await _getPickupProductsByDate(req);
+        return await pickupRepository.getPickupProductsByDate(req);
     }
 
     async getPickupDates(req){
@@ -31,7 +31,7 @@ class PickupService {
             pickupName: req.pickupName.trim(), 
             cityId: req.cityId
         };
-        return await _getPickupDates(obj);
+        return await pickupRepository.getPickupDates(obj);
     }
 
     async getTopPickups(req){
@@ -40,15 +40,15 @@ class PickupService {
             limit: req.limit || 5
         }
 
-        return await _getTopPickups(obj);
+        return await pickupRepository.getTopPickups(obj);
     }
 
     async insert(req){
         if(!req.name || !req.date){
             return;
         }
-        return await _insert(req);
+        return await pickupRepository.insert(req);
     }
 }
 
-export default new PickupService();
+module.exports = new PickupService();

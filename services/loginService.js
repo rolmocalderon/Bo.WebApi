@@ -20,7 +20,7 @@ class LoginService {
             user = Array.isArray(user) ? user[0]: user;
             const encryptedPassword = bcrypt.hashSync(user.password, 10);
             var isPassword = await bcrypt.compare(password, encryptedPassword)
-            console.log(isPassword, password, user.password)
+            
             if(user && isPassword){
                 result = {
                     name,

@@ -1,20 +1,22 @@
 const pickupRepository = require('../repository/pickupRepository.js');
+const moment = require('moment');
+const lib = require('../helpers/lib')
 
 class PickupService {
     async getAll(req){
         let pickups = [];
         let pickupResult = await pickupRepository.getAll(req);
-        let today = new Date();
+        let today = moment(new Date());
         pickupResult.forEach((pickup) => {
             if(pickup.date){
-                let pickupDate = new Date(pickup.date);
-                if(pickupDate.getTime() > today.getTime()){
+                let pickupDate = lib.convertToDate(pickup.date);
+                if(moment(pickupDate).diff(today) >= 0){
                     pickups.push(pickup);
                 }
             }
         });
         
-        return pickups;
+        return this.#orderPickups(pickups);
     }
 
     async getPickupProducts(req){
@@ -44,10 +46,18 @@ class PickupService {
     }
 
     async insert(req){
-        if(!req.name || !req.date){
+        if(!req.placeName || !req.date){
             return;
         }
         return await pickupRepository.insert(req);
+    }
+
+    #orderPickups(pickups){
+        pickups = pickups.sort(function(a,b){
+            return lib.convertToDate(a.date) - lib.convertToDate(b.date);
+        });
+        
+        return pickups;
     }
 }
 

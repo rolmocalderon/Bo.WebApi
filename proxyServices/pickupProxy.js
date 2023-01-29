@@ -73,7 +73,8 @@ class PickupProxy{
 
     async insert(pickupObj){
         let result = '';
-        if(pickupObj.id && pickupObj.id !== ''){
+        console.log(pickupObj)
+        if(pickupObj.id && pickupObj.id !== '' && !isNaN(pickupObj.id)){
             result = await query(`UPDATE pickups SET name = '${pickupObj.placeName}', date = '${pickupObj.date}' WHERE id = ${pickupObj.id};`);
           }else{
             result = await query(`INSERT INTO pickups (name, date, cityId) VALUES ('${pickupObj.placeName}', '${pickupObj.date}', ${pickupObj.cityId})`);

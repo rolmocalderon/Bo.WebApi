@@ -96,6 +96,14 @@ class ProductsProxy{
 
         return response
     }
+
+    async deleteProduct(productId){
+        let response = await query(`DELETE FROM products WHERE id = ${productId};`);
+        response = await query(`DELETE FROM productmeasures WHERE productid = ${productId}`);
+        response = await query(`DELETE FROM productpicked WHERE productid = ${productId};`);
+
+        return response;
+    }
 }
 
 module.exports = new ProductsProxy();

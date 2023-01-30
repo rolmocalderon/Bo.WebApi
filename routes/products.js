@@ -13,5 +13,6 @@ router.get('/api/getMeasures', auth, productsController.getMeasures);
 router.post('/api/syncProductPicked', auth, productsController.syncProductPicked);
 router.post('/api/updateUrgentProduct', auth, productsController.updateUrgentProduct);
 router.post('/api/insertProduct', auth, productsController.insertProduct);
+router.post('/api/deleteProduct', auth, productsController.deleteProduct);
 
 module.exports = router;

@@ -41,6 +41,12 @@ class ProductsController{
 
         res.json(result);
     }
+
+    async deleteProduct(req, res){
+        let result = await productService.deleteProduct(req.body);
+
+        res.json(result);
+    }
 }
 
 module.exports = new ProductsController();

@@ -7,9 +7,15 @@ class CitiesController{
     }
 
     async insertCity(req, res){
-        let cities = await citiesService.insertCity(req.body);
+        let response = await citiesService.insertCity(req.body);
 
-        res.json(cities);
+        res.json(response);
+    }
+
+    async deleteCity(req, res){
+        let response = await citiesService.deleteCity(req.body);
+
+        res.json(response);
     }
 }
 

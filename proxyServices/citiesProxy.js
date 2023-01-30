@@ -15,13 +15,14 @@ class CitiesProxy{
         }else{
           response = await query(`INSERT INTO cities (name) VALUES ('${cityObj.name}')`);
         }
-        
-        if(response){
-          let result = await query("SELECT nextval('cities_id_seq');");
-          response.insertId = result[0].nextval - 1;
-        }
 
         return response;
+    }
+
+    async deleteCity(cityId){
+      let response = await query(`DELETE FROM cities WHERE id = ${cityId};`);
+
+      return response;
     }
 }
 

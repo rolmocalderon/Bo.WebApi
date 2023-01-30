@@ -1,3 +1,4 @@
+const { deleteProduct } = require('../proxyServices/productsProxy.js');
 const productsProxy = require('../proxyServices/productsProxy.js');
 
 class ProductRepository{
@@ -28,6 +29,10 @@ class ProductRepository{
 
     insertProduct(obj){
         return this.#doPromise(productsProxy.insertProduct, obj);
+    }
+
+    deleteProduct(productId){
+        return this.#doPromise(productsProxy.deleteProduct, productId);
     }
 
     #doPromise(callback, req){

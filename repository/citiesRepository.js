@@ -1,3 +1,4 @@
+const { deleteCity } = require('../proxyServices/citiesProxy.js');
 const citiesProxy = require('../proxyServices/citiesProxy.js');
 
 class CitiesRepository{
@@ -7,6 +8,10 @@ class CitiesRepository{
 
     insertCity(cityObj){
         return this.#doPromise(citiesProxy.insertCity, cityObj);
+    }
+
+    deleteCity(cityId){
+        return this.#doPromise(citiesProxy.deleteCity, cityId);
     }
 
     #doPromise(callback, req){

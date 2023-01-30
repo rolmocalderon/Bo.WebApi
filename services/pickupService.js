@@ -52,6 +52,10 @@ class PickupService {
         return await pickupRepository.insert(req);
     }
 
+    async delete(req){
+        return await pickupRepository.delete(req);
+    }
+
     #orderPickups(pickups){
         pickups = pickups.sort(function(a,b){
             return lib.convertToDate(a.date) - lib.convertToDate(b.date);

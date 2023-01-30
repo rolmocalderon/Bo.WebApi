@@ -31,5 +31,9 @@ class ProductService {
     async insertProduct(req){
         return await productRepository.insertProduct(req);
     }
+
+    async deleteProduct(req){
+        return await productRepository.deleteProduct(req.id);
+    }
 }
 module.exports = new ProductService();

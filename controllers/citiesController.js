@@ -13,7 +13,7 @@ class CitiesController{
     }
 
     async deleteCity(req, res){
-        let response = await citiesService.deleteCity(req.body);
+        let response = await citiesService.deleteCity(req.params);
 
         res.json(response);
     }

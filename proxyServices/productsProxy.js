@@ -3,7 +3,6 @@ const QueryHelper = require('../helpers/queryHelper.js');
 
 class ProductsProxy{
     async getAll(){
-        console.log("proxy");
         let result = await query('SELECT p.id, p.name, pm.measureid FROM products p LEFT JOIN productmeasures pm ON pm.productid = p.id ORDER BY name;');
     
         return result;
@@ -53,7 +52,7 @@ class ProductsProxy{
         FROM products p 
         LEFT JOIN urgentproducts up 
         ON p.id = up.productid AND up.cityid = ${cityId} 
-        ORDER BY p.id;`);
+        ORDER BY p.name;`);
         
         return response;
     }
@@ -99,8 +98,6 @@ class ProductsProxy{
 
     async deleteProduct(productId){
         let response = await query(`DELETE FROM products WHERE id = ${productId};`);
-        response = await query(`DELETE FROM productmeasures WHERE productid = ${productId}`);
-        response = await query(`DELETE FROM productpicked WHERE productid = ${productId};`);
 
         return response;
     }

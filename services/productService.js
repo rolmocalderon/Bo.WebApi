@@ -2,9 +2,7 @@ const productRepository = require('../repository/productRepository.js');
 
 class ProductService {
     async getAll(){
-        console.log("service");
         let products = await productRepository.getAll();
-        //products = [...new Map(products.map(product => [product["id"], product])).values()];
         return products;
     }
 
@@ -33,6 +31,7 @@ class ProductService {
     }
 
     async deleteProduct(req){
+        if(!req) return;
         return await productRepository.deleteProduct(req.id);
     }
 }

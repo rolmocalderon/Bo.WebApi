@@ -7,7 +7,7 @@ class PickupsController{
     }
 
     async getPickupProducts(req, res){
-        let pickupProducts = await pickupService.getPickupProducts(req.query);
+        let pickupProducts = await pickupService.getPickupProducts(req.params);
 
         res.json(pickupProducts);
     }
@@ -32,6 +32,11 @@ class PickupsController{
 
     async insertPickup(req, res){ 
         let response = await pickupService.insert(req.body);
+        res.json(response);
+    }
+
+    async deletePickup(req, res){
+        let response = await pickupService.delete(req.params);
         res.json(response);
     }
 }

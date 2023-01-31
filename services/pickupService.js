@@ -5,6 +5,7 @@ const lib = require('../helpers/lib')
 class PickupService {
     async getAll(req){
         let pickups = [];
+        if(!req) return pickups;
         let pickupResult = await pickupRepository.getAll(req);
         let today = moment(new Date());
         pickupResult.forEach((pickup) => {
@@ -20,6 +21,7 @@ class PickupService {
     }
 
     async getPickupProducts(req){
+        if(!req.pickupId) return [];
         return await pickupRepository.getPickupProducts(req.pickupId);
     }
 
@@ -28,7 +30,6 @@ class PickupService {
     }
 
     async getPickupDates(req){
-        console.log(req)
         let obj = {
             pickupName: req.pickupName.trim(), 
             cityId: req.cityId
@@ -53,7 +54,7 @@ class PickupService {
     }
 
     async delete(req){
-        return await pickupRepository.delete(req);
+        return await pickupRepository.delete(req.id);
     }
 
     #orderPickups(pickups){

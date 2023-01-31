@@ -1,10 +1,4 @@
-CREATE TABLE users (
-   id serial PRIMARY KEY,
-   name VARCHAR(50) NOT NULL,
-   password VARCHAR(50) NOT NULL,
-   category VARCHAR(50) NOT NULL,
-   cityid INT
-);
+DROP TABLE products, subproducts, productmeasures, productpicked, users, cities, measures, pickups, subproducts, productmeasures, productpicked, urgentproducts, families, familymembers;
 
 CREATE TABLE products (
    id serial PRIMARY KEY,
@@ -22,69 +16,68 @@ CREATE TABLE measures (
    weight INT NOT NULL
 );
 
+CREATE TABLE users (
+   id serial PRIMARY KEY,
+   name VARCHAR(50) NOT NULL,
+   password VARCHAR(50) NOT NULL,
+   category VARCHAR(50) NOT NULL,
+   cityid INT REFERENCES cities (id) ON DELETE CASCADE
+);
+
 CREATE TABLE pickups (
    id serial PRIMARY KEY,
    date VARCHAR(50) NOT NULL,
    name VARCHAR(50) NOT NULL,
-   cityid INT NOT NULL
+   cityid INT REFERENCES cities (id) ON DELETE CASCADE
 );
 
 CREATE TABLE subproducts (
    id serial PRIMARY KEY,
-   productid INT NOT NULL,
+   productid INT REFERENCES products (id) ON DELETE CASCADE,
    name VARCHAR(50) NOT NULL
 );
 
 CREATE TABLE productmeasures (
    id serial PRIMARY KEY,
    productid INT,
-   measureid INT NOT NULL,
-   subproductid INT
+   measureid INT NOT NULL REFERENCES measures (id) ON DELETE CASCADE,
+   subproductid INT REFERENCES subproducts (id) ON DELETE CASCADE
 );
 
 CREATE TABLE productpicked (
    id serial PRIMARY KEY,
    amount INT NOT NULL,
-   pickupid INT NOT NULL,
-   productid INT,
-   measureid INT NOT NULL,
+   pickupid INT REFERENCES pickups (id) ON DELETE CASCADE,
+   productid INT REFERENCES products (id) ON DELETE CASCADE,
+   measureid INT NOT NULL REFERENCES measures (id) ON DELETE CASCADE,
    subproductid INT
 );
 
 CREATE TABLE urgentproducts (
    id serial PRIMARY KEY,
-   productid INT NOT NULL,
-   cityid INT NOT NULL
+   productid INT NOT NULL REFERENCES products (id) ON DELETE CASCADE,
+   cityid INT NOT NULL REFERENCES cities (id) ON DELETE CASCADE
 );
 
 CREATE TABLE families(
    id serial PRIMARY KEY,
    name VARCHAR(50) NOT NULL,
-   cityid INT NOT NULL
+   cityid INT NOT NULL REFERENCES cities (id) ON DELETE CASCADE
 );
 
 CREATE TABLE familymembers(
    id serial PRIMARY KEY,
-   familyid INT NOT NULL,
+   familyid INT NOT NULL REFERENCES families (id) ON DELETE CASCADE,
    name VARCHAR(50),
    gender VARCHAR(50),
    datebirth VARCHAR(50)
 );
 
-INSERT INTO families (id, name) VALUES (1, 'Lopez', 2);
-INSERT INTO families (id, name) VALUES (2, 'Martinez', 2);
-
-INSERT INTO familymembers (id, familyid, name, genre, datebirth) VALUES (1, 1, NULL, 'men', '09/06/1987');
-INSERT INTO familymembers (id, familyid, name, genre, datebirth) VALUES (2, 1, NULL, 'women', '15/05/1984');
-INSERT INTO familymembers (id, familyid, name, genre, datebirth) VALUES (3, 1, NULL, 'women', '17/08/2022');
-
-INSERT INTO familymembers (id, familyid, name, genre, datebirth) VALUES (4, 2, NULL, 'women', '15/05/1984');
-INSERT INTO familymembers (id, familyid, name, genre, datebirth) VALUES (5, 2, NULL, 'women', '17/08/2022');
-
-CREATE UNIQUE INDEX productmeasures_unique ON productmeasures (measureid,productid);
-CREATE UNIQUE INDEX subproductmeasures_unique ON productmeasures (measureid,subproductid);
-CREATE UNIQUE INDEX productpicked_unique ON productpicked (measureid,pickupid,productid);
-CREATE UNIQUE INDEX subproductpicked_unique ON productpicked (measureid,pickupid,subproductid);
+INSERT INTO cities (id, name) VALUES (1, 'Madrid');
+INSERT INTO cities (id, name) VALUES (2, 'Barcelona');
+INSERT INTO cities (id, name) VALUES (3, 'Valencia');
+INSERT INTO cities (id, name) VALUES (4, 'Sevilla');
+INSERT INTO cities (id, name) VALUES (5, 'Bilbao');
 
 
 INSERT INTO products (id, name) VALUES (1, 'Leche');
@@ -124,6 +117,19 @@ INSERT INTO subproducts (id, productid, name) VALUES (11, 20,'Talla 4');
 INSERT INTO subproducts (id, productid, name) VALUES (12, 20,'Talla 5');
 INSERT INTO subproducts (id, productid, name) VALUES (13, 20,'Talla 6');
 
+INSERT INTO measures (id, type, weight) VALUES (1, '250g', 0.25); -- 1
+INSERT INTO measures (id, type, weight) VALUES (2, '500g', 0.5); -- 2
+INSERT INTO measures (id, type, weight) VALUES (3, '1 Kilo', 1); -- 3
+INSERT INTO measures (id, type, weight) VALUES (4, '250ml', 0.25); -- 4
+INSERT INTO measures (id, type, weight) VALUES (5, '500ml', 0.5); -- 5
+INSERT INTO measures (id, type, weight) VALUES (6, '1 Litro', 1); -- 6
+INSERT INTO measures (id, type, weight) VALUES (7, 'Talla 0', 0); -- 7
+--INSERT INTO measures (id, type, weight) VALUES (8, 'Talla 1', 0); -- 8
+--INSERT INTO measures (id, type, weight) VALUES (9, 'Talla 2', 0); -- 9
+--INSERT INTO measures (id, type, weight) VALUES (10, 'Talla 3', 0); -- 10
+--INSERT INTO measures (id, type, weight) VALUES (11, 'Talla 4', 0); -- 11
+INSERT INTO measures (id, type, weight) VALUES (12, '1 Paquete', 0); -- 12
+
 
 INSERT INTO productmeasures (productid, measureid, subproductid) VALUES (1, 6, NULL); /* Leche - 1 litro */
 INSERT INTO productmeasures (productid, measureid, subproductid) VALUES (2, 6, NULL); /* Sopas - 1 litro */
@@ -159,37 +165,32 @@ INSERT INTO productmeasures (productid, measureid, subproductid) VALUES (NULL, 1
 INSERT INTO productmeasures (productid, measureid, subproductid) VALUES (NULL, 12, 12); /* Talla 5 - 250g */
 INSERT INTO productmeasures (productid, measureid, subproductid) VALUES (NULL, 12, 13); /* Talla 6 - 250g */
 
+CREATE UNIQUE INDEX productmeasures_unique ON productmeasures (measureid,productid);
+CREATE UNIQUE INDEX subproductmeasures_unique ON productmeasures (measureid,subproductid);
+CREATE UNIQUE INDEX productpicked_unique ON productpicked (measureid,pickupid,productid);
+CREATE UNIQUE INDEX subproductpicked_unique ON productpicked (measureid,pickupid,subproductid);
+
 
 INSERT INTO users (name, password, category) VALUES ('pau', 'testing', 'Admin');
 INSERT INTO users (name, password, category) VALUES ('paloma', 'testing', 'Admin');
 INSERT INTO users (name, password, category, cityid) VALUES ('bcn1', 'testing', 'User', 2);
 INSERT INTO users (name, password, category, cityid) VALUES ('vcn1', 'testing', 'User', 3);
 
+INSERT INTO families (id, name, cityid) VALUES (1, 'Lopez', 2);
+INSERT INTO families (id, name, cityid) VALUES (2, 'Martinez', 2);
 
-INSERT INTO cities (name) VALUES ('Madrid');
-INSERT INTO cities (name) VALUES ('Barcelona');
-INSERT INTO cities (name) VALUES ('Valencia');
-INSERT INTO cities (name) VALUES ('Sevilla');
-INSERT INTO cities (name) VALUES ('Bilbao');
+INSERT INTO familymembers (id, familyid, name, gender, datebirth) VALUES (1, 1, NULL, 'men', '09/06/1987');
+INSERT INTO familymembers (id, familyid, name, gender, datebirth) VALUES (2, 1, NULL, 'women', '15/05/1984');
+INSERT INTO familymembers (id, familyid, name, gender, datebirth) VALUES (3, 1, NULL, 'women', '17/08/2022');
 
-
-INSERT INTO measures (type, weight) VALUES ('250g', 0.25); -- 1
-INSERT INTO measures (type, weight) VALUES ('500g', 0.5); -- 2
-INSERT INTO measures (type, weight) VALUES ('1 Kilo', 1); -- 3
-INSERT INTO measures (type, weight) VALUES ('250ml', 0.25); -- 4
-INSERT INTO measures (type, weight) VALUES ('500ml', 0.5); -- 5
-INSERT INTO measures (type, weight) VALUES ('1 Litro', 1); -- 6
-INSERT INTO measures (type, weight) VALUES ('Talla 0', 0); -- 7
---INSERT INTO measures (type, weight) VALUES ('Talla 1', 0); -- 8
---INSERT INTO measures (type, weight) VALUES ('Talla 2', 0); -- 9
---INSERT INTO measures (type, weight) VALUES ('Talla 3', 0); -- 10
---INSERT INTO measures (type, weight) VALUES ('Talla 4', 0); -- 11
-INSERT INTO measures (type, weight) VALUES ('1 Paquete', 0); -- 12
+INSERT INTO familymembers (id, familyid, name, gender, datebirth) VALUES (4, 2, NULL, 'women', '15/05/1984');
+INSERT INTO familymembers (id, familyid, name, gender, datebirth) VALUES (5, 2, NULL, 'women', '17/08/2022');
 
 
 /* FUNCTIONS */
 
-SELECT SETVAL('productmeasures_id_seq', 1);
+SELECT SETVAL('products_id_seq', 21);
+SELECT SETVAL('cities_id_seq', 5);
 
 
 /* RELOAD DATA */

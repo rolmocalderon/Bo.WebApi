@@ -4,10 +4,12 @@ const auth = require("../middleware/auth");
 const router = express.Router();
 
 //GET
-router.get('/api/getCities', auth, citiesController.getAll);
+router.get('/api/cities', auth, citiesController.getAll);
 
 //POST
-router.post('/api/insertCity', auth, citiesController.insertCity);
-router.post('/api/deleteCity', auth, citiesController.deleteCity);
+router.post('/api/city', auth, citiesController.insertCity);
+
+//DELETE
+router.delete('/api/city/:id', auth, citiesController.deleteCity);
 
 module.exports = router;

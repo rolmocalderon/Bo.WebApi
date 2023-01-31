@@ -34,7 +34,7 @@ class PickupProxy{
         ON sp.id = pp.subproductid AND m.id = pp.measureid AND pp.pickupid = ${pickupId}
         ORDER BY name;`;
 
-        let result = await db.query(queryString)
+        let result = await query(queryString)
 
         return result;
 
@@ -73,7 +73,6 @@ class PickupProxy{
 
     async insert(pickupObj){
         let result = '';
-        console.log(pickupObj)
         if(pickupObj.id && pickupObj.id !== '' && !isNaN(pickupObj.id)){
             result = await query(`UPDATE pickups SET name = '${pickupObj.placeName}', date = '${pickupObj.date}' WHERE id = ${pickupObj.id};`);
           }else{
@@ -81,6 +80,12 @@ class PickupProxy{
           }
       
         return result;
+    }
+
+    async delete(pickupId){
+        let response = await query(`DELETE FROM pickups WHERE id = ${pickupId};`);
+
+        return response;
     }
 }
 

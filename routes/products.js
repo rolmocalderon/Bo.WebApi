@@ -4,15 +4,17 @@ const router = express.Router();
 const auth = require("../middleware/auth");
 
 //GET
-router.get('/api/getProducts', auth, productsController.getAll);
-router.get('/api/getPickupProducts', auth, productsController.getPickupProducts);
-router.get('/api/getUrgentProducts', auth, productsController.getUrgentProducts);
-router.get('/api/getMeasures', auth, productsController.getMeasures);
+router.get('/api/products', auth, productsController.getAll);
+router.get('/api/pickupProducts', auth, productsController.getPickupProducts);
+router.get('/api/urgentProducts', auth, productsController.getUrgentProducts);
+router.get('/api/measures', auth, productsController.getMeasures);
 
 //POST
 router.post('/api/syncProductPicked', auth, productsController.syncProductPicked);
 router.post('/api/updateUrgentProduct', auth, productsController.updateUrgentProduct);
-router.post('/api/insertProduct', auth, productsController.insertProduct);
-router.post('/api/deleteProduct', auth, productsController.deleteProduct);
+router.post('/api/product', auth, productsController.insertProduct);
+
+//DELETE
+router.delete('/api/product/:id', auth, productsController.deleteProduct);
 
 module.exports = router;

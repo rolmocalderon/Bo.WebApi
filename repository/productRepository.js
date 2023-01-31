@@ -3,7 +3,6 @@ const productsProxy = require('../proxyServices/productsProxy.js');
 
 class ProductRepository{
     getAll(){
-        console.log("repository");
         return this.#doPromise(productsProxy.getAll);
     }
 

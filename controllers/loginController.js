@@ -3,7 +3,6 @@ const loginService = require('../services/loginService.js');
 class LoginController{
     async doLogin(req, res){
         let result = await loginService.doLogin(req.body);
-        console.log("controller", result)
         if(result.error){
             res.status(403).json(result.errorMessage);
         }else{

@@ -25,6 +25,10 @@ class PickupRepository{
         return this.#doPromise(pickupProxy.insert, obj);
     }
 
+    delete(id){
+        return this.#doPromise(pickupProxy.delete, id);
+    }
+
     #doPromise(callback, req){
         return new Promise((resolve, reject) => {
             callback(req).then((result) => {

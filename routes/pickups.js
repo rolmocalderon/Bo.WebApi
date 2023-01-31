@@ -4,13 +4,16 @@ const auth = require("../middleware/auth");
 const router = express.Router();
 
 //GET
-router.get('/api/getPickups', auth, pickupsController.getAll);
-router.get('/api/getPickupProducts', auth, pickupsController.getPickupProducts);
-router.get('/api/getPickupProductsByDate', auth, pickupsController.getPickupProductsByDate);
-router.get('/api/getPickupDates', auth, pickupsController.getPickupDates);
-router.get('/api/getTopPickups', auth, pickupsController.getTopPickups);
+router.get('/api/pickups', auth, pickupsController.getAll);
+router.get('/api/pickupProducts/:pickupId', auth, pickupsController.getPickupProducts);
+router.get('/api/pickupProductsByDate', auth, pickupsController.getPickupProductsByDate);
+router.get('/api/pickupDates', auth, pickupsController.getPickupDates);
+router.get('/api/topPickups', auth, pickupsController.getTopPickups);
 
 //POST
-router.post('/api/insertPickup', auth, pickupsController.insertPickup);
+router.post('/api/pickup', auth, pickupsController.insertPickup);
+
+//DELETE
+router.delete('/api/pickup/:id', auth, pickupsController.deletePickup);
 
 module.exports = router;

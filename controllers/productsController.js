@@ -2,7 +2,6 @@ const productService = require('../services/productService.js');
 
 class ProductsController{
     async getAll(req, res){
-        console.log("controller");
         let products = await productService.getAll();
         res.json(products);
     }
@@ -43,7 +42,7 @@ class ProductsController{
     }
 
     async deleteProduct(req, res){
-        let result = await productService.deleteProduct(req.body);
+        let result = await productService.deleteProduct(req.params);
 
         res.json(result);
     }

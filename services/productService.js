@@ -22,10 +22,6 @@ class ProductService {
         return await productRepository.updateUrgentProduct(req);
     }
 
-    async getMeasures(){
-        return await productRepository.getMeasures();
-    }
-
     async insertProduct(req){
         return await productRepository.insertProduct(req);
     }

@@ -6,6 +6,7 @@ const productsRouter = require("./routes/products.js");
 const pickupsRouter = require("./routes/pickups.js");
 const loginRouter = require("./routes/login.js");
 const citiesRouter = require("./routes/cities.js");
+const measuresRouter = require("./routes/measures.js");
 
 const port = process.env.PORT || 3000;
 
@@ -16,6 +17,7 @@ app.use(productsRouter);
 app.use(citiesRouter);
 app.use(loginRouter);
 app.use(pickupsRouter);
+app.use(measuresRouter);
 
 app.get('/', (req, res) => {
   res.json('Acción Solidaria');

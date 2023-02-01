@@ -29,12 +29,6 @@ class ProductsController{
         res.json(result);
     }
 
-    async getMeasures(req, res){
-        let measures = await productService.getMeasures();
-
-        res.json(measures);
-    }
-
     async insertProduct(req, res){
         let result = await productService.insertProduct(req.body);
 

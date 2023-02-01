@@ -1,4 +1,3 @@
-const { deleteProduct } = require('../proxyServices/productsProxy.js');
 const productsProxy = require('../proxyServices/productsProxy.js');
 
 class ProductRepository{

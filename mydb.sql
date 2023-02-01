@@ -191,6 +191,9 @@ INSERT INTO familymembers (id, familyid, name, gender, datebirth) VALUES (5, 2, 
 
 SELECT SETVAL('products_id_seq', 21);
 SELECT SETVAL('cities_id_seq', 5);
+SELECT SETVAL('measures_id_seq', 12);
+
+SELECT nextval('products_id_seq');
 
 
 /* RELOAD DATA */

@@ -69,13 +69,6 @@ class ProductsProxy{
         return response;
     }
 
-    async getMeasures(){
-        let queryString = 'SELECT id, type FROM measures ORDER BY type';
-        const response = await query(queryString);
-      
-        return response;
-    }
-
     async insertProduct(obj){
         var response = [];
         if(obj.id && obj.id !== ''){

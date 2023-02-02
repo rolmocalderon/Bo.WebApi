@@ -3,6 +3,19 @@ const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
 
 class LoginService {
+    async getAll(req){
+        return await loginRepository.getAll(req.cityId);
+    }
+
+    async insertUser(user){
+        if(!user.name || user.name === '') return;
+        return await loginRepository.insertUser(user);
+    }
+
+    async deleteUser(user){
+        return await loginRepository.deleteUser(user.id);
+    }
+
     async doLogin(req){
         let result = {
             'data': {},

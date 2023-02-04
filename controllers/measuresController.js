@@ -9,15 +9,20 @@ class MeasuresController{
     async insertMeasure(req, res){
         let response = await measuresService.insertMeasure(req.body); 
         if(response.error){
-            res.status(403).json("Error al insertar");
+            res.status(403).json("Error al insertar measure");
         }else{
-            res.json(response.data);
+            res.json(response);
         }
     }
 
     async deleteMeasure(req, res){
         let response = await measuresService.deleteMeasure(req.params);
-        res.json(response);
+
+        if(response.error){
+            res.status(403).json("Error al eliminar measure");
+        }else{
+            res.json(response);
+        }
     }
 }
 

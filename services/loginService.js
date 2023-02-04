@@ -9,7 +9,8 @@ class LoginService {
 
     async insertUser(user){
         if(!user.name || user.name === '') return;
-        return await loginRepository.insertUser(user);
+        let response = await loginRepository.insertUser(user);
+        return response;
     }
 
     async deleteUser(user){
@@ -17,11 +18,6 @@ class LoginService {
     }
 
     async doLogin(req){
-        let result = {
-            'data': {},
-            'error': false,
-            'errorMessage': 'Usuario o contraseña erróneos'
-        };
         try{
             const {name, password} = req;
     
@@ -29,23 +25,25 @@ class LoginService {
                 return null;
             }
     
-            var user = await loginRepository.doLogin(name.toLowerCase());
-            user = Array.isArray(user) ? user[0]: user;
-            const encryptedPassword = bcrypt.hashSync(user.password, 10);
+            var result = await loginRepository.doLogin(name.toLowerCase());
+
+            if(result.error){
+                return result;
+            }
+            result = Array.isArray(result) ? result[0]: result;
+            const encryptedPassword = bcrypt.hashSync(result.password, 10);
             var isPassword = await bcrypt.compare(password, encryptedPassword)
             
-            if(user && isPassword){
+            if(result && isPassword){
                 result = {
                     name,
-                    token: jwt.sign({ user_id: user.id, name }, process.env.TOKEN_KEY),
-                    category: user.category,
-                    cityid: user.cityid
+                    token: jwt.sign({ user_id: result.id, name }, process.env.TOKEN_KEY),
+                    category: result.category,
+                    cityid: result.cityid
                 };
             }else{
                 result.error = true;
             }
-
-            return result;
         }catch(e){
             result.error = true;
         }

@@ -12,6 +12,7 @@ async function query(sql) {
         return response.rows;
     }catch(exception){
         response.error = exception;
+        console.log(exception);
     }
 
     return response;

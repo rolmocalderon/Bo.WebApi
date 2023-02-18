@@ -1,4 +1,3 @@
-const { deleteCity } = require('../proxyServices/citiesProxy.js');
 const citiesProxy = require('../proxyServices/citiesProxy.js');
 
 class CitiesRepository{

@@ -8,10 +8,12 @@ class PickupService {
         if(!req) return pickups;
         let pickupResult = await pickupRepository.getAll(req);
         let today = moment(new Date());
+        
         pickupResult.forEach((pickup) => {
             if(pickup.date){
                 let pickupDate = lib.convertToDate(pickup.date);
-                if(moment(pickupDate).diff(today) >= 0){
+                let currentDate = req.date ? lib.convertToDate(req.date) : undefined;
+                if(moment(pickupDate).diff(today) >= 0 || currentDate && moment(pickupDate).diff(currentDate) >= 0){
                     pickups.push(pickup);
                 }
             }
